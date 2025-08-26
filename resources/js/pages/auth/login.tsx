@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface LoginProps {
     status?: string;
@@ -14,7 +15,7 @@ interface LoginProps {
 
 export default function Login({ status }: LoginProps) {
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and you will receive an one time authentication code">
+        <AuthLayout title="Log in to your account" description="You will receive an one-time authentication code">
             <Head title="Log in" />
 
             <Form method="post" action={route('login')} resetOnSuccess={['password']} className="flex flex-col gap-6">
@@ -34,6 +35,11 @@ export default function Login({ status }: LoginProps) {
                                     placeholder="email@example.com"
                                 />
                                 <InputError message={errors.email} />
+                            </div>
+
+                            <div className="flex items-center space-x-3">
+                                <Checkbox id="remember" name="remember" tabIndex={3} />
+                                <Label htmlFor="remember">Remember me</Label>
                             </div>
 
                             <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>

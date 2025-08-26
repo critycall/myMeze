@@ -40,19 +40,35 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
                                 <div className="grid gap-2">
+                                    <Label htmlFor="name">First name</Label>
+
+                                    <Input
+                                        id="first_name"
+                                        className="mt-1 block w-full"
+                                        defaultValue={auth.user.first_name}
+                                        name="name"
+                                        required
+                                        autoComplete="first_name"
+                                        placeholder="First name"
+                                    />
+
+                                    <InputError className="mt-2" message={errors.first_name} />
+                                </div>
+
+                                <div className="grid gap-2">
                                     <Label htmlFor="name">Name</Label>
 
                                     <Input
-                                        id="name"
+                                        id="last_name"
                                         className="mt-1 block w-full"
-                                        defaultValue={auth.user.name}
-                                        name="name"
+                                        defaultValue={auth.user.last_name}
+                                        name="last_name"
                                         required
-                                        autoComplete="name"
-                                        placeholder="Full name"
+                                        autoComplete="last_name"
+                                        placeholder="Last name"
                                     />
 
-                                    <InputError className="mt-2" message={errors.name} />
+                                    <InputError className="mt-2" message={errors.last_name} />
                                 </div>
 
                                 <div className="grid gap-2">

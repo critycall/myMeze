@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\OtpLoginRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Mail\LoginEmailCode;
 use App\Models\User;
@@ -10,11 +11,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use function Laravel\Prompts\error;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,33 +33,22 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    public function verify(Request $request): RedirectResponse
+    public function verify(OtpLoginRequest $request): RedirectResponse
     {
-        $request->validate([
-            'email' => ['required', 'email', 'exists:users,email'],
-        ]);
+        try {
+            $status = $request->verify();
+        } catch (ValidationException $exception) {
+            throw $exception;
+        } catch (\Exception $exception) {
 
-        $user = User::where('email', $request->email)->firstOrFail();
+            Log::error('OTP verification failed', [
+                'message' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
+            ]);
+            return redirect()->route('login.password')->with('status', 'Authentication by OTP is currency unavailable please log in using email and password.');
+        }
 
-        $code = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        $token = (string)Str::uuid();
-
-        Cache::put(
-            "login_code:{$token}",
-            [
-                'code' => $code,
-                'user_id' => $user->id,
-                'ip' => $request->ip(),
-                'ua' => (string)$request->userAgent(),
-            ],
-            now()->addMinutes(11)
-        );
-
-        $request->session()->put('auth_token', $token);
-
-        Mail::to($user->email)->send(new LoginEmailCode($code));
-
-        return redirect()->route('login.confirm')->with('status', 'An one-time password code has been sent to your email.');
+        return redirect()->route('login.confirm')->with('status', $status);
     }
 
     public function confirm(Request $request): Response

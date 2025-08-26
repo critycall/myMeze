@@ -2,14 +2,17 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Mail\LoginEmailCode;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class LoginRequest extends FormRequest
+class OtpLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +30,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'otp' => ['required', 'string', 'min:6', 'max:6'],
+            'email' => ['required', 'email', 'exists:users,email'],
         ];
     }
 
@@ -36,25 +39,34 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function verify(): string
     {
         $this->ensureIsNotRateLimited();
-        $token = $this->session()->get("auth_token");
 
-        $key = "login_code:{$token}";
+        RateLimiter::hit($this->throttleKey());
 
-        $payload = Cache::get($key);
+        $user = User::where('email', $this->email)->firstOrFail();
 
-        if ($payload['code'] != $this->get('otp'))
-        {
-            throw ValidationException::withMessages([
-                'otp' => 'Provided OTP is not valid.',
-            ]);
-        }
+        $code = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $token = (string)Str::uuid();
 
-        Auth::loginUsingId($payload['user_id'], $payload['remember']);
+        Cache::put(
+            "login_code:{$token}",
+            [
+                'code' => $code,
+                'user_id' => $user->id,
+                'ip' => $this->ip(),
+                'ua' => (string)$this->userAgent(),
+                'remember' => $this->boolean('remember'),
+            ],
+            now()->addMinutes(11)
+        );
 
-        RateLimiter::clear($this->throttleKey());
+        $this->session()->put('auth_token', $token);
+
+        Mail::to($user->email)->send(new LoginEmailCode($code));
+
+        return 'An one-time password code has been sent to your email.';
     }
 
     /**
@@ -64,7 +76,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 2)) {
             return;
         }
 
