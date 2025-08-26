@@ -5,11 +5,10 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
-class LoginRequest extends FormRequest
+class PasswordLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +26,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'otp' => ['required', 'string', 'min:6', 'max:6'],
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
         ];
     }
 
@@ -39,20 +39,14 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-        $token = $this->session()->get("auth_token");
 
-        $key = "login_code:{$token}";
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            RateLimiter::hit($this->throttleKey());
 
-        $payload = Cache::get($key);
-
-        if ($payload['code'] != $this->get('otp'))
-        {
             throw ValidationException::withMessages([
-                'otp' => 'Provided OTP is not valid.',
+                'email' => __('auth.failed'),
             ]);
         }
-
-        Auth::loginUsingId($payload['user_id'], true);
 
         RateLimiter::clear($this->throttleKey());
     }
