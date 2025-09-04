@@ -3,12 +3,21 @@ import { AppHeader } from '@/components/app-header';
 import { AppShell } from '@/components/app-shell';
 import { type BreadcrumbItem } from '@/types';
 import type { PropsWithChildren } from 'react';
+import { Toaster } from 'sonner';
 
 export default function AppHeaderLayout({ children, breadcrumbs }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
     return (
         <AppShell>
             <AppHeader breadcrumbs={breadcrumbs} />
             <AppContent>{children}</AppContent>
+            <Toaster
+                toastOptions={{
+                    classNames: {
+                        toast: '!bg-secondary !border-input !text-primary',
+                        description: '!text-muted-foreground',
+                    },
+                }}
+            />
         </AppShell>
     );
 }

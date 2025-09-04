@@ -46,7 +46,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         id="first_name"
                                         className="mt-1 block w-full"
                                         defaultValue={auth.user.first_name}
-                                        name="name"
+                                        name="first_name"
                                         required
                                         autoComplete="first_name"
                                         placeholder="First name"

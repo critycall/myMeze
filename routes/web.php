@@ -11,6 +11,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::resource('product-categories', App\Http\Controllers\ProductCategoryController::class);
+
+    Route::resource('product-groups', \App\Http\Controllers\ProductGroupController::class);
+
+    Route::resource('products', \App\Http\Controllers\ProductController::class);
 });
 
 require __DIR__.'/settings.php';
