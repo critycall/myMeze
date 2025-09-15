@@ -13,23 +13,24 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('sku');
+            $table->string('sku')->nullable();
             $table->string('name');
-            $table->string('ean');
-            $table->string('upc');
-            $table->double('msrp');
-            $table->string('slug');
-            $table->tinyText('description');
+            $table->string('barcode')->nullable();
+            $table->double('msrp')->nullable();
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
             $table->unsignedSmallInteger('position');
             $table->enum('status', ['draft', 'active' , 'archived', 'discontinued'])->default('draft');
-            $table->unsignedBigInteger('material_id');
+            $table->unsignedBigInteger('material_id')->nullable();
 
             $table->foreignId('product_category_id')
+                ->nullable()
                 ->constrained('product_categories')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
             $table->foreignId('product_group_id')
+                ->nullable()
                 ->constrained('product_groups')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();

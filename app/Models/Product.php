@@ -13,4 +13,8 @@ class Product extends Model
     protected $casts = [
         'status' => ProductStatus::class,
     ];
+
+    protected $fillable = [
+        'sku', 'name', 'barcode', 'description', 'status', 'position', 'slug', 'quantity', 'msrp'
+    ];
 }

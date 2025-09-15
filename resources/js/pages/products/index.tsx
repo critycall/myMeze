@@ -51,14 +51,14 @@ export default function Index({ products, search }: { products: PaginatedRespons
                             {products.data.map((product) => (
                                 <TableRow key={product.id}>
                                     <TableCell>{product.id}</TableCell>
-                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell className="max-w-32 truncate md:max-w-60">{product.name}</TableCell>
                                     <TableCell>{product.position}</TableCell>
                                     <TableCell className="text-right">
                                         <Link href={ route('products.edit', product.id) }>
                                             <Button className="mr-2" type="button" size="sm" variant="outline">
                                                 <Edit></Edit>
                                             </Button>
-                                        </Link>
+                                         </Link>
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button type="button" size="sm" variant="destructive">

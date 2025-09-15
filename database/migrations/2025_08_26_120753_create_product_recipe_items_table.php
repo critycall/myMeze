@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('product_recipe_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_recipe_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('component_product_id')->constrained('products')->restrictOnDelete();
+            $table->foreignId('product_id')->constrained('products')->restrictOnDelete();
             $table->decimal('quantity', 12, 4)->default(1);
             $table->string('uom', 32)->default('pcs');
             $table->unsignedInteger('position')->default(0);
-            $table->text('notes')->nullable();
+            $table->text('details')->nullable();
             $table->timestamps();
         });
     }

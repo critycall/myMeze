@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->unsignedInteger('version')->default(1);
+            $table->string('version')->default(1);
             $table->boolean('is_active')->default(true);
-            $table->text('notes')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->unique(['product_id', 'version']);

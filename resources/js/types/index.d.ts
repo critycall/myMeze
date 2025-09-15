@@ -22,6 +22,13 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface Option {
+    value: string;
+    label: string;
+    icon?: LucideIcon | null;
+    description?: string;
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
@@ -75,6 +82,26 @@ export interface ProductGroup {
     position: number;
 }
 
+export interface ProductRecipe {
+    id: number;
+    name: string;
+    version: string;
+    description: string;
+    is_active: boolean;
+    product: Product;
+    items: ProductRecipeItem[];
+}
+
+export interface ProductRecipeItem {
+    id: number;
+    name: string;
+    quantity: number;
+    uom: string;
+    position: number;
+    details: string;
+    product: Product;
+}
+
 export interface Product {
     id: number;
     name: string;
@@ -82,5 +109,3 @@ export interface Product {
     description: string;
     position: number;
 }
-
-

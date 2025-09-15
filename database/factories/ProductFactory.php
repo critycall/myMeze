@@ -24,8 +24,6 @@ class ProductFactory extends Factory
         return [
             'sku' => strtoupper(Str::random(12)),
             'name' => $name,
-            'ean' => $this->faker->ean13(),
-            'upc' => $this->faker->unique()->numerify('###########'), // 12-digit UPC
             'msrp' => $this->faker->randomFloat(2, 10, 999), // between 10 and 999
             'slug' => Str::slug($name) . '-' . Str::random(5),
             'description' => $this->faker->sentence(),

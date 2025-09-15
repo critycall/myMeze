@@ -117,7 +117,7 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                             {productGroups.data.map((group) => (
                                 <TableRow key={group.id}>
                                     <TableCell>{group.id}</TableCell>
-                                    <TableCell>{group.name}</TableCell>
+                                    <TableCell className="max-w-32 truncate md:max-w-60">{group.name}</TableCell>
                                     <TableCell>{group.position}</TableCell>
                                     <TableCell className="text-right">
                                         <UpdateGroupDialog group={group} />
@@ -152,7 +152,7 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                                                                 <DialogDescription className="my-3">This action cannot be undone.</DialogDescription>
                                                             </DialogHeader>
                                                             <DialogFooter>
-                                                                <DialogClose>
+                                                                <DialogClose asChild>
                                                                     <Button type="button" variant="outline">
                                                                         Cancel
                                                                     </Button>

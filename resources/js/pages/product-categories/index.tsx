@@ -117,7 +117,7 @@ export default function Index({ productCategories, search }: { productCategories
                             {productCategories.data.map((category) => (
                                 <TableRow key={category.id}>
                                     <TableCell>{category.id}</TableCell>
-                                    <TableCell className="max-w-30 truncate">{category.name}</TableCell>
+                                    <TableCell className="max-w-32 truncate md:max-w-60">{category.name}</TableCell>
                                     <TableCell>{category.position}</TableCell>
                                     <TableCell className="text-right">
                                         <UpdateCategoryDialog category={category} />
@@ -147,7 +147,7 @@ export default function Index({ productCategories, search }: { productCategories
                                                                 <DialogDescription className="my-3">This action cannot be undone.</DialogDescription>
                                                             </DialogHeader>
                                                             <DialogFooter>
-                                                                <DialogClose>
+                                                                <DialogClose asChild>
                                                                     <Button type="button" variant="outline">Cancel</Button>
                                                                 </DialogClose>
                                                                 <Button variant="destructive" type="submit">

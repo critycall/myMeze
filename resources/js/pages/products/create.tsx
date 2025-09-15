@@ -1,34 +1,23 @@
-import { Head, Form } from '@inertiajs/react'
-import AppLayout from '@/layouts/app-layout'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import InputError from '@/components/input-error'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { BreadcrumbItem } from '@/types';
-import ProductLayout from '@/layouts/product/layout';
 import HeadingSmall from '@/components/heading-small';
-
-interface Option {
-    id: number
-    name: string
-}
-
-interface Props {
-    materials: Option[]
-    categories: Option[]
-    groups: Option[]
-}
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import RichEditor from '@/components/ui/editor';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
+import ProductLayout from '@/layouts/product/layout';
+import { BreadcrumbItem, Option } from '@/types';
+import { Form, Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Products',
         href: '/products',
-    }
+    },
 ];
 
-
-export default function Create({ categories, groups }: Props) {
+export default function Create({ categories, groups , statuses }: { categories: Option[]; groups: Option[]; statuses: Option[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Product" />
@@ -38,14 +27,18 @@ export default function Create({ categories, groups }: Props) {
                 </div>
 
                 <div className="max-w-2xl">
-                    <Form
-                        method="post"
-                        action={route('products.store')}
-                        options={{ preserveScroll: true }}
-                        className="space-y-6"
-                    >
+                    <Form method="post" action={route('products.store')} options={{ preserveScroll: true }} className="space-y-6">
                         {({ processing, errors }) => (
-                            <>
+
+                            <> {Object.values(errors).length > 0 && (
+                                <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-600">
+                                    <ul className="list-disc list-inside">
+                                        {Object.values(errors).map((msg, i) => (
+                                            <li key={i}>{msg}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                                 {/* SKU */}
                                 <div className="grid gap-2">
                                     <Label htmlFor="sku">SKU</Label>
@@ -81,16 +74,10 @@ export default function Create({ categories, groups }: Props) {
                                     <InputError className="mt-2" message={errors.msrp} />
                                 </div>
 
-                                {/* Slug */}
-                                <div className="grid gap-2">
-                                    <Label htmlFor="slug">Slug</Label>
-                                    <Input id="slug" name="slug" placeholder="unique-slug" />
-                                    <InputError className="mt-2" message={errors.slug} />
-                                </div>
-
                                 {/* Description */}
                                 <div className="grid gap-2">
                                     <Label htmlFor="description">Description</Label>
+                                    <RichEditor name="description" value={''} />
                                     <InputError className="mt-2" message={errors.description} />
                                 </div>
 
@@ -109,10 +96,11 @@ export default function Create({ categories, groups }: Props) {
                                             <SelectValue placeholder="Select status" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="draft">Draft</SelectItem>
-                                            <SelectItem value="active">Active</SelectItem>
-                                            <SelectItem value="archived">Archived</SelectItem>
-                                            <SelectItem value="discontinued">Discontinued</SelectItem>
+                                            {statuses.map((s : Option) => (
+                                                <SelectItem key={s.value} value={String(s.value)}>
+                                                    {s.label}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <InputError className="mt-2" message={errors.status} />
@@ -133,9 +121,9 @@ export default function Create({ categories, groups }: Props) {
                                             <SelectValue placeholder="Select category" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {categories.map((c) => (
-                                                <SelectItem key={c.id} value={String(c.id)}>
-                                                    {c.name}
+                                            {categories.map((c : Option) => (
+                                                <SelectItem key={c.value} value={String(c.value)}>
+                                                    {c.label}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -151,9 +139,9 @@ export default function Create({ categories, groups }: Props) {
                                             <SelectValue placeholder="Select group" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {groups.map((g) => (
-                                                <SelectItem key={g.id} value={String(g.id)}>
-                                                    {g.name}
+                                            {groups.map((g: Option) => (
+                                                <SelectItem key={g.value} value={String(g.value)}>
+                                                    {g.label}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -170,7 +158,6 @@ export default function Create({ categories, groups }: Props) {
                     </Form>
                 </div>
             </ProductLayout>
-
         </AppLayout>
-    )
+    );
 }
