@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ProductStatus;
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,7 +29,9 @@ class ProductFactory extends Factory
             'slug' => Str::slug($name) . '-' . Str::random(5),
             'description' => $this->faker->sentence(),
             'position' => $this->faker->numberBetween(1, 100),
-            'status' => $this->faker->randomElement(['draft', 'active', 'archived', 'discontinued']),
+            'ean' => $this->faker->ean8(),
+            'upc' => $this->faker->ean8(),
+            'status' => $this->faker->randomElement(ProductStatus::cases()),
             'material_id' => rand(1000,9999),
             'product_category_id' => ProductCategory::factory(),
             'product_group_id' => ProductGroup::factory(),

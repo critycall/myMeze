@@ -106,6 +106,16 @@ export interface Product {
     id: number;
     name: string;
     slug: string;
+    sku: string;
     description: string;
     position: number;
+    msrp: int;
+    ean : string;
+    upc : string;
+    status: string;
+    product_category: ProductCategory;
+    product_category_id: string;
+    product_group: ProductGroup;
+    product_group_id: string;
+    material_id : number;
 }

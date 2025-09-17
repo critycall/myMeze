@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('sku')->nullable();
             $table->string('name');
             $table->string('barcode')->nullable();
+            $table->string('ean')->nullable();
+            $table->string('upc')->nullable();
             $table->double('msrp')->nullable();
             $table->string('slug')->unique();
             $table->text('description')->nullable();

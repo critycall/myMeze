@@ -55,7 +55,6 @@ class ProductController extends Controller
             ];
         });
 
-
         return Inertia::render('products/create', [
             'categories' => $categories,
             'groups' => $groups,
@@ -86,9 +85,34 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $product): Response
     {
-        //
+        $categories = ProductCategory::all(['id', 'name'])->map(function ($category) {
+            return [
+                'value' => $category->id,
+                'label' => $category->name,
+            ];
+        });
+        $groups = ProductGroup::all(['id', 'name'])->map(function ($group) {
+            return [
+                'value' => $group->id,
+                'label' => $group->name,
+            ];
+        });
+
+        $statuses = collect(ProductStatus::cases())->map(function ($status) {
+            return [
+                'value' => $status->value,
+                'label' => $status->name,
+            ];
+        });
+
+        return Inertia::render('products/edit', [
+            'product' => $product,
+            'categories' => $categories,
+            'groups' => $groups,
+            'statuses' => $statuses,
+        ]);
     }
 
     /**
