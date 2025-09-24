@@ -13,16 +13,8 @@ class ProductStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sku' => 'string|required',
+            'sku' => 'string|required|unique:products,sku',
             'name' => 'string|required',
-            'barcode' => 'string|nullable',
-            'msrp' => ['numeric', 'required', 'min:0'],
-            'position' => 'numeric|required',
-            'description' => 'string|required',
-            'status' => ['required', new Enum(ProductStatus::class)],
-            'material_id' => 'string|required',
-            'product_category_id' => 'integer|required|exists:product_categories,id',
-            'product_group_id' => 'integer|required|exists:product_groups,id',
         ];
     }
 

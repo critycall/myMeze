@@ -40,7 +40,7 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Product groups" />
             <ProductLayout>
-                <div className="max-w-2xl">
+                <div className="max-w-3xl">
                     <div className="flex justify-between">
                         <HeadingSmall title={recipe.name} description="Update recipe details" />
                         <div>
@@ -130,7 +130,7 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
                     </div>
                 </div>
 
-                <div className="pt-6">
+                <div className="pt-6 max-w-3xl">
                     <HeadingSmall title="Recipe items" description="Add or remove product items" />
                     <div className="w-full overflow-auto border mt-2">
                         <Table>

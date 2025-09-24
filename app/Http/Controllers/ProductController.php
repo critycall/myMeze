@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Enums\ProductStatus;
 use App\Http\Requests\Product\ProductStoreRequest;
+use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductController extends Controller
 {
@@ -27,38 +32,6 @@ class ProductController extends Controller
         return Inertia::render('products/index', [
             'products' => $products,
             'search' => $search,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        $categories = ProductCategory::all(['id', 'name'])->map(function ($category) {
-            return [
-                'value' => $category->id,
-                'label' => $category->name,
-            ];
-        });
-        $groups = ProductGroup::all(['id', 'name'])->map(function ($group) {
-            return [
-                'value' => $group->id,
-                'label' => $group->name,
-            ];
-        });
-
-        $statuses = collect(ProductStatus::cases())->map(function ($status) {
-            return [
-                'value' => $status->value,
-                'label' => $status->name,
-            ];
-        });
-
-        return Inertia::render('products/create', [
-            'categories' => $categories,
-            'groups' => $groups,
-            'statuses' => $statuses,
         ]);
     }
 
@@ -107,6 +80,8 @@ class ProductController extends Controller
             ];
         });
 
+        $product->append('gallery');
+
         return Inertia::render('products/edit', [
             'product' => $product,
             'categories' => $categories,
@@ -117,16 +92,42 @@ class ProductController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @throws ValidationException
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product): RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $product->update($validated);
+
+        if ($request['media_order']){
+            Media::setNewOrder($request['media_order']);
+        }
+
+        if ($request->hasFile('media_files')) {
+            foreach ($request->file('media_files') as $file) {
+                try {
+                    $product
+                        ->addMedia($file)
+                        ->toMediaCollection('gallery');
+                } catch (FileDoesNotExist $e) {
+                    throw ValidationException::withMessages([
+                        'media_files' => 'File does not exist.',
+                    ]);
+                } catch (FileIsTooBig $e) {
+                    throw ValidationException::withMessages([
+                        'media_files' => 'File size is too big.',
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('products.edit', $product)->with('success');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): RedirectResponse
     {
         $product->delete();
 

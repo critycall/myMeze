@@ -118,4 +118,14 @@ export interface Product {
     product_group: ProductGroup;
     product_group_id: string;
     material_id : number;
+    thumbnail: Media;
+    gallery : Media[];
+}
+
+export interface Media {
+    id: number;
+    name: string;
+    temporary_url: string;
+    src: string;
+    srcset: string;
 }

@@ -1,15 +1,27 @@
+import HeadingSmall from '@/components/heading-small';
+import InputError from '@/components/input-error';
 import { TablePagination } from '@/components/table-pagination';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { InputSearch } from '@/components/ui/input-search';
+import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem, PaginatedResponse, Product} from '@/types';
+import ProductLayout from '@/layouts/product/layout';
+import { BreadcrumbItem, PaginatedResponse, Product } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
 import { Edit, LoaderCircle, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { Dialog,DialogTitle, DialogDescription, DialogClose, DialogContent, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
-import ProductLayout from '@/layouts/product/layout';
-import HeadingSmall from '@/components/heading-small';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,7 +30,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 export default function Index({ products, search }: { products: PaginatedResponse<Product>; search: string }) {
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Products" />
@@ -30,11 +41,53 @@ export default function Index({ products, search }: { products: PaginatedRespons
                     <Form action={route('products.index')}>
                         <InputSearch name="search" defaultValue={search} placeholder={'Search'}></InputSearch>
                     </Form>
-                    <Link href={route('products.create')}>
-                        <Button className="mt-3 md:mt-0" variant="default">
-                            New Product
-                        </Button>
-                    </Link>
+
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button className="mt-3 md:mt-0" variant="default">
+                                New Product
+                            </Button>
+                        </DialogTrigger>
+
+
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Create new product</DialogTitle>
+                                <DialogDescription>Complete information will be available in the next step</DialogDescription>
+                            </DialogHeader>
+                            <Form method="post" action={route('products.store')} options={{ preserveScroll: true }} className="space-y-6">
+                                {({ processing, errors }) => (
+                                    <>
+                                        <div className="my-4 grid gap-4">
+                                            <div className="grid gap-3">
+                                                <Label htmlFor="sku">SKU</Label>
+                                                <Input id="sku" name="sku" placeholder="SKU" />
+                                                <InputError className="mt-2" message={errors.sku} />
+                                            </div>
+                                        </div>
+
+                                        {/* Name */}
+                                        <div className="my-4 grid gap-4">
+                                            <div className="grid gap-3">
+                                                <Label htmlFor="name">Name</Label>
+                                                <Input id="name" name="name" placeholder="Product name" />
+                                                <InputError className="mt-2" message={errors.name} />
+                                            </div>
+                                        </div>
+                                        <DialogFooter>
+                                            <DialogClose asChild>
+                                                <Button variant="outline">Cancel</Button>
+                                            </DialogClose>
+                                            <Button type="submit" disabled={processing}>
+                                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                                                Save
+                                            </Button>
+                                        </DialogFooter>
+                                    </>
+                                )}
+                            </Form>
+                        </DialogContent>
+                    </Dialog>
                 </div>
 
                 <div className="border">
@@ -54,35 +107,37 @@ export default function Index({ products, search }: { products: PaginatedRespons
                                     <TableCell className="max-w-32 truncate md:max-w-60">{product.name}</TableCell>
                                     <TableCell>{product.position}</TableCell>
                                     <TableCell className="text-right">
-                                        <Link href={ route('products.edit', product.id) }>
+                                        <Link href={route('products.edit', product.id)}>
                                             <Button className="mr-2" type="button" size="sm" variant="outline">
                                                 <Edit></Edit>
                                             </Button>
-                                         </Link>
+                                        </Link>
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button type="button" size="sm" variant="destructive">
-                                                    <Trash2></Trash2>
+                                                    <Trash2 />
                                                 </Button>
                                             </DialogTrigger>
                                             <DialogContent>
                                                 <Form
                                                     method="delete"
                                                     onSuccess={() => {
-                                                        toast.error('Product has been deleted', {
-                                                            description: product.name + ', Position: ' + product.position,
+                                                        toast.error("Product has been deleted", {
+                                                            description: product.name,
                                                         });
                                                     }}
-                                                    action={route('products.destroy', product.id)}
+                                                    action={route("products.destroy", product.id)}
                                                 >
                                                     {({ processing }) => (
                                                         <>
-                                                            <DialogContent  className="gap-2">
+                                                            {/* ✅ use DialogHeader instead of nested DialogContent */}
+                                                            <div className="gap-2">
                                                                 <DialogTitle>Are you absolutely sure?</DialogTitle>
                                                                 <DialogDescription className="my-3">
                                                                     This action cannot be undone.
                                                                 </DialogDescription>
-                                                            </DialogContent>
+                                                            </div>
+
                                                             <DialogFooter className="gap-2">
                                                                 <DialogClose>Cancel</DialogClose>
                                                                 <Button variant="destructive" type="submit">
@@ -95,6 +150,7 @@ export default function Index({ products, search }: { products: PaginatedRespons
                                                 </Form>
                                             </DialogContent>
                                         </Dialog>
+
                                     </TableCell>
                                 </TableRow>
                             ))}

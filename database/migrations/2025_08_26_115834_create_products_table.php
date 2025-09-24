@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('msrp')->nullable();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->unsignedSmallInteger('position');
+            $table->unsignedSmallInteger('position')->nullable();
             $table->enum('status', ['draft', 'active' , 'archived', 'discontinued'])->default('draft');
             $table->unsignedBigInteger('material_id')->nullable();
 
