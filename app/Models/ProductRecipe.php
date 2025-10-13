@@ -24,6 +24,6 @@ class ProductRecipe extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(ProductRecipeItem::class);
+        return $this->hasMany(ProductRecipeItem::class)->orderBy('position');
     }
 }

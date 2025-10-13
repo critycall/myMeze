@@ -10,6 +10,9 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'] )->name('dashboard');
+
+    Route::resource('product-registrations', \App\Http\Controllers\ProductRegistrationController::class)
+    ->except(['edit']);
 });
 
 require __DIR__ . '/settings.php';

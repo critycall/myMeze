@@ -7,6 +7,8 @@ use App\Traits\FormatsMedia;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
@@ -47,6 +49,23 @@ class Product extends Model implements HasMedia
 
             return $this->formatMedia($media);
         });
+    }
+
+    public function services(): HasMany
+    {
+        return $this->hasMany(ProductService::class);
+    }
+
+    public function latestRecipe(): HasOne
+    {
+        return $this->hasOne(ProductRecipe::class)
+            ->where('is_active',true)
+            ->ofMany('version', 'max');
+    }
+
+    public function recipes(): HasMany
+    {
+        return $this->hasMany(ProductRecipe::class);
     }
 
 }

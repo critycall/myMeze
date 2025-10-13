@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_recipes', function (Blueprint $table) {
+        Schema::create('product_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->double('price');
             $table->string('name');
-            $table->string('version')->default(1);
+            $table->string('description');
             $table->boolean('is_active')->default(false);
-            $table->text('description')->nullable();
+            $table->unsignedInteger('warranty_days');
             $table->timestamps();
-            $table->unique(['product_id', 'version']);
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_recipes');
+        Schema::dropIfExists('material_services');
     }
 };

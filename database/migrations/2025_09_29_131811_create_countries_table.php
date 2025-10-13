@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_recipes', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('version')->default(1);
-            $table->boolean('is_active')->default(false);
-            $table->text('description')->nullable();
+            $table->string('shortcut');
+            $table->foreignId('currency_id')->constrained();
+            $table->string('international_code')->nullable();
             $table->timestamps();
-            $table->unique(['product_id', 'version']);
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_recipes');
+        Schema::dropIfExists('countries');
     }
 };

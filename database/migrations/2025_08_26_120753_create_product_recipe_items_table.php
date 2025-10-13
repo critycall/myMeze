@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->restrictOnDelete();
             $table->decimal('quantity', 12, 4)->default(1);
             $table->string('uom', 32)->default('pcs');
-            $table->unsignedInteger('position')->default(0);
+            $table->unsignedInteger('position')->default(1);
             $table->text('details')->nullable();
             $table->timestamps();
         });

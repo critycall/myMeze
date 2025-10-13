@@ -17,7 +17,7 @@ import { InputSearch } from '@/components/ui/input-search';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import ProductLayout from '@/layouts/product/layout';
+import ManagementLayout from '@/layouts/product/layout';
 import type { BreadcrumbItem, PaginatedResponse, ProductCategory } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 import { Edit, LoaderCircle, Trash2 } from 'lucide-react';
@@ -36,7 +36,7 @@ export default function Index({ productCategories, search }: { productCategories
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Product categories" />
-            <ProductLayout>
+            <ManagementLayout>
                 <div className="space-y-6">
                     <HeadingSmall title="Product categories" description="Manage categories" />
                 </div>
@@ -150,7 +150,7 @@ export default function Index({ productCategories, search }: { productCategories
                                                                 <DialogClose asChild>
                                                                     <Button type="button" variant="outline">Cancel</Button>
                                                                 </DialogClose>
-                                                                <Button variant="destructive" type="submit">
+                                                                <Button variant="destructive" type="submit" disabled={processing}>
                                                                     {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                                                     Continue
                                                                 </Button>
@@ -175,7 +175,7 @@ export default function Index({ productCategories, search }: { productCategories
 
                     <div></div>
                 </div>
-            </ProductLayout>
+            </ManagementLayout>
         </AppLayout>
     );
 }

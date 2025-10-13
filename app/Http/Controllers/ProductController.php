@@ -99,9 +99,7 @@ class ProductController extends Controller
         $validated = $request->validated();
         $product->update($validated);
 
-        if ($request['media_order']){
-            Media::setNewOrder($request['media_order']);
-        }
+        $this->updateGallery($request, $product);
 
         if ($request->hasFile('media_files')) {
             foreach ($request->file('media_files') as $file) {
@@ -132,5 +130,29 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index');
+    }
+
+    /**
+     * @param ProductUpdateRequest $request
+     * @param Product $product
+     * @return void
+     */
+    protected function updateGallery(ProductUpdateRequest $request, Product $product): void
+    {
+        $newOrder = $request->input('media_order', []);
+
+        if (!empty($newOrder)) {
+            Media::setNewOrder($newOrder);
+
+            $keep = $product->media()
+                ->where('collection_name', 'gallery')
+                ->whereIn('id', $newOrder)
+                ->get();
+
+            $product->clearMediaCollectionExcept('gallery', $keep);
+        } else {
+
+            $product->clearMediaCollection('gallery');
+        }
     }
 }

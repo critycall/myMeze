@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import SortableGallery from '@/components/ui/media-galery';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import ProductLayout from '@/layouts/product/layout';
+import ManagementLayout from '@/layouts/product/layout';
 import { BreadcrumbItem, Option, Product } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 import { toast } from 'sonner';
@@ -35,7 +35,7 @@ export default function Edit({
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Update ${product.name}`} />
-            <ProductLayout>
+            <ManagementLayout>
                 <Form
                     method="POST"
                     onSuccess={() => {
@@ -187,7 +187,7 @@ export default function Edit({
                         </>
                     )}
                 </Form>
-            </ProductLayout>
+            </ManagementLayout>
         </AppLayout>
     );
 }

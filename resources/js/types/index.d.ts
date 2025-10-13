@@ -110,16 +110,18 @@ export interface Product {
     description: string;
     position: number;
     msrp: int;
-    ean : string;
-    upc : string;
+    ean: string;
+    upc: string;
     status: string;
     product_category: ProductCategory;
     product_category_id: string;
     product_group: ProductGroup;
     product_group_id: string;
-    material_id : number;
+    material_id: number;
     thumbnail: Media;
-    gallery : Media[];
+    gallery: Media[];
+    services: ProductService[];
+    latest_recipe: ProductRecipe;
 }
 
 export interface Media {
@@ -128,4 +130,54 @@ export interface Media {
     temporary_url: string;
     src: string;
     srcset: string;
+}
+
+export interface ProductService {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    warranty_days: number;
+    product_id: number;
+    product: Product;
+    is_active: boolean;
+}
+
+export interface ProductRegistration {
+    id: number;
+    product: Product;
+    product_id: string;
+    user: User;
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    nickname: string;
+    email: string;
+    purchased_date: string;
+    serial_number: string;
+    checked: boolean;
+    validated: boolean;
+    product_service: ProductService;
+    product_service_id: string;
+    has_warning: boolean;
+    currency_id: number;
+    country_id: number;
+    warranty_days: number;
+    default_warranty_days: number;
+    bought_from: string;
+    address: string;
+    phone: string;
+    can_extend_warranty: boolean;
+    created_at: string;
+}
+
+export interface ContentBlock {
+    id: number;
+    key: string;
+    title: string;
+    body?: string | null;
+    action: string;
+    action_name: string;
+    background: Media;
+    mobileBackground: Media;
 }

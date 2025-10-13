@@ -13,6 +13,16 @@ const sidebarNavItems: NavItem[] = [
         icon: null,
     },
     {
+        title: 'Services',
+        href: '/product-services',
+        icon: null,
+    },
+    {
+        title: 'Recipes',
+        href: '/product-recipes',
+        icon: null,
+    },
+    {
         title: 'Categories',
         href: '/product-categories',
         icon: null,
@@ -23,13 +33,13 @@ const sidebarNavItems: NavItem[] = [
         icon: null,
     },
     {
-        title: 'Recipes',
-        href: '/product-recipes',
+        title: 'Content block',
+        href: '/content-blocks',
         icon: null,
     },
 ];
 
-export default function ProductLayout({ children }: PropsWithChildren) {
+export default function ManagementLayout({ children }: PropsWithChildren) {
     // When server-side rendering, we only render the layout on the client...
     if (typeof window === 'undefined') {
         return null;
@@ -39,7 +49,7 @@ export default function ProductLayout({ children }: PropsWithChildren) {
 
     return (
         <div className="px-4 py-6">
-            <Heading title="Product" description="Manage product available products, groups, categories, recipes" />
+            <Heading title="Management" description="Manage product available content, products, groups, categories, recipes, sevices" />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">

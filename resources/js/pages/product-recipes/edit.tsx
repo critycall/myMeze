@@ -20,7 +20,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import AppLayout from '@/layouts/app-layout';
-import ProductLayout from '@/layouts/product/layout';
+import ManagementLayout from '@/layouts/product/layout';
 import { BreadcrumbItem, Option, ProductRecipe, ProductRecipeItem } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle, Trash2 } from 'lucide-react';
@@ -39,7 +39,7 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Product groups" />
-            <ProductLayout>
+            <ManagementLayout>
                 <div className="max-w-3xl">
                     <div className="flex justify-between">
                         <HeadingSmall title={recipe.name} description="Update recipe details" />
@@ -120,7 +120,7 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
                                         <InputError message={errors.is_active} className="mt-2" />
                                     </div>
 
-                                    <Button type="submit">
+                                    <Button type="submit" disabled={processing}>
                                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                         Update recipe
                                     </Button>
@@ -179,7 +179,6 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
                                                                 description: item.product.name + ', Position: ' + recipe.version,
                                                             });
                                                         }}
-
                                                         action={route('product-recipes.items.destroy', [recipe.id, item.id])}
                                                     >
                                                         {({ processing }) => (
@@ -196,7 +195,7 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
                                                                             Cancel
                                                                         </Button>
                                                                     </DialogClose>
-                                                                    <Button variant="destructive" type="submit">
+                                                                    <Button variant="destructive" type="submit" disabled={processing}>
                                                                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                                                         Continue
                                                                     </Button>
@@ -261,14 +260,14 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
                                            <div className="my-4 grid gap-4">
                                                <div className="grid gap-3">
                                                    <Label htmlFor="quantity">Quantity</Label>
-                                                   <Input required autoComplete="off" id="quantity" name="quantity" placeholder="ex: 1,2,3 ..." />
+                                                   <Input autoComplete="off" id="quantity" name="quantity" placeholder="ex: 1,2,3 ..." />
                                                    <InputError message={errors.quantity} className="mt-2" />
                                                </div>
                                            </div>
                                            <div className="my-4 grid gap-4">
                                                <div className="grid gap-3">
                                                    <Label htmlFor="position">Position</Label>
-                                                   <Input required autoComplete="off" id="position" name="position" placeholder="1,2,3 ..." />
+                                                   <Input autoComplete="off" id="position" name="position" placeholder="1,2,3 ..." />
                                                    <InputError message={errors.position} className="mt-2" />
                                                </div>
                                            </div>
@@ -296,7 +295,7 @@ export default function Edit({ recipe, products }: { recipe: ProductRecipe; prod
                        </Dialog>
                    </div>
                 </div>
-            </ProductLayout>
+            </ManagementLayout>
         </AppLayout>
     );
 }

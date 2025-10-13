@@ -23,24 +23,24 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import AppLayout from '@/layouts/app-layout';
 import ManagementLayout from '@/layouts/product/layout';
-import { BreadcrumbItem, Option, PaginatedResponse, ProductRecipe } from '@/types';
-import { Form, Head, Link } from '@inertiajs/react';
+import { BreadcrumbItem, Option, PaginatedResponse, ProductService } from '@/types';
+import { Form, Head } from '@inertiajs/react';
 import { Edit, LoaderCircle, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Products recipes',
-        href: '/product-recipes',
+        title: 'Products services',
+        href: '/product-services',
     },
 ];
 export default function Index({
-    productRecipes,
+    productServices,
     search,
     products,
 }: {
-    productRecipes: PaginatedResponse<ProductRecipe>;
+    productServices: PaginatedResponse<ProductService>;
     search: string;
     products: Option[];
 }) {
@@ -48,24 +48,24 @@ export default function Index({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Product recipes" />
+            <Head title="Product services" />
             <ManagementLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Product recipes" description="Manage product recipes" />
+                    <HeadingSmall title="Product service" description="Manage product services" />
                 </div>
                 <div className="w-full justify-between md:flex lg:flex-row lg:space-x-12">
                     <Form
                         options={{
                             preserveScroll: true,
                         }}
-                        action={route('product-recipes.index')}
+                        action={route('product-services.index')}
                     >
                         <InputSearch name="search" defaultValue={search} placeholder={'Search'}></InputSearch>
                     </Form>
                     <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
                             <Button className="mt-3 md:mt-0" variant="default">
-                                New Recipe
+                                New Service
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
@@ -76,10 +76,10 @@ export default function Index({
                                 method="post"
                                 onSuccess={() => {
                                     setOpen(false);
-                                    toast.success('Product recipe has been created');
+                                    toast.success('Product service has been created');
                                 }}
                                 resetOnSuccess={['name', 'position']}
-                                action={route('product-recipes.store')}
+                                action={route('product-services.store')}
                             >
                                 {({ processing, errors }) => (
                                     <>
@@ -90,7 +90,7 @@ export default function Index({
                                         <div className="my-4 grid gap-4">
                                             <div className="grid gap-3">
                                                 <Label htmlFor="name">Name</Label>
-                                                <Input autoComplete="off" id="name" name="name" placeholder="109 Series" />
+                                                <Input autoComplete="off" id="name" name="name" placeholder="1 Year extra warranty" />
                                                 <InputError message={errors.name} className="mt-2" />
                                             </div>
                                         </div>
@@ -114,9 +114,16 @@ export default function Index({
                                         </div>
                                         <div className="my-4 grid gap-4">
                                             <div className="grid gap-3">
-                                                <Label htmlFor="name">Version</Label>
-                                                <Input autoComplete="off" id="version" name="version" placeholder="1,2,3 ..." />
-                                                <InputError message={errors.version} className="mt-2" />
+                                                <Label htmlFor="price">Price</Label>
+                                                <Input autoComplete="off" type="number" id="price" name="price" />
+                                                <InputError message={errors.price} className="mt-2" />
+                                            </div>
+                                        </div>
+                                        <div className="my-4 grid gap-4">
+                                            <div className="grid gap-3">
+                                                <Label htmlFor="warranty_days">Warranty days</Label>
+                                                <Input autoComplete="off" type="warranty_days" id="warranty_days" name="warranty_days" />
+                                                <InputError message={errors.warranty_days} className="mt-2" />
                                             </div>
                                         </div>
                                         <div className="my-4 grid gap-4">
@@ -137,7 +144,7 @@ export default function Index({
                                                 <div className="grid gap-1.5 font-normal">
                                                     <p className="text-sm leading-none font-medium">Active</p>
                                                     <p className="text-sm text-muted-foreground">
-                                                        Recipe will be shown in product information
+                                                        Service will be available to the customers to buy
                                                     </p>
                                                 </div>
                                             </Label>
@@ -172,14 +179,14 @@ export default function Index({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {productRecipes.data.map((recipe: ProductRecipe) => (
-                                <TableRow key={recipe.id}>
-                                    <TableCell>{recipe.id}</TableCell>
-                                    <TableCell className="max-w-32 truncate md:max-w-60">{recipe.name}</TableCell>
-                                    <TableCell>{recipe.product.name}</TableCell>
-                                    <TableCell>{recipe.version}</TableCell>
+                            {productServices.data.map((service: ProductService) => (
+                                <TableRow key={service.id}>
+                                    <TableCell>{service.id}</TableCell>
+                                    <TableCell className="max-w-32 truncate md:max-w-60">{service.name}</TableCell>
+                                    <TableCell>{service.product.name}</TableCell>
+                                    <TableCell>{service.price}</TableCell>
                                     <TableCell>
-                                        {recipe.is_active ? (
+                                        {service.is_active ? (
                                             <Badge> Active</Badge>
                                         ) : (
                                             <Badge className="text-secondary" variant="destructive">
@@ -189,23 +196,21 @@ export default function Index({
                                         )}
                                     </TableCell>
                                     <TableCell>
-                                        <TooltipProvider key={recipe.id}>
+                                        <TooltipProvider key={service.id}>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <p className="w-32 truncate">{recipe.description}</p>
+                                                    <p className="w-32 truncate">{service.description}</p>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
-                                                    <p> {recipe.description}</p>
+                                                    <p> {service.description}</p>
                                                 </TooltipContent>
                                             </Tooltip>
                                         </TooltipProvider>
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Link href={route('product-recipes.edit', recipe.id)}>
-                                            <Button className="mr-2" type="button" size="sm" variant="outline">
-                                                <Edit />
-                                            </Button>
-                                        </Link>
+                                        <Button className="mr-2" type="button" size="sm" variant="outline">
+                                            <Edit />
+                                        </Button>
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button type="button" size="sm" variant="destructive">
@@ -220,7 +225,7 @@ export default function Index({
                                                     method="delete"
                                                     onSuccess={() => {
                                                         toast.success('Product recipe has been deleted', {
-                                                            description: recipe.name + ', Position: ' + recipe.version,
+                                                            description: service.name,
                                                         });
                                                     }}
                                                     onError={(error) => {
@@ -228,7 +233,7 @@ export default function Index({
                                                             description: error[0],
                                                         });
                                                     }}
-                                                    action={route('product-recipes.destroy', recipe.id)}
+                                                    action={route('product-services.destroy', service.id)}
                                                 >
                                                     {({ processing }) => (
                                                         <>
@@ -242,7 +247,7 @@ export default function Index({
                                                                         Cancel
                                                                     </Button>
                                                                 </DialogClose>
-                                                                <Button variant="destructive" type="submit" disabled={processing}>
+                                                                <Button variant="destructive" type="submit">
                                                                     {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                                                     Continue
                                                                 </Button>
@@ -259,7 +264,7 @@ export default function Index({
                         <TableFooter>
                             <TableRow>
                                 <TableCell colSpan={7}>
-                                    <TablePagination resource={productRecipes} />
+                                    <TablePagination resource={productServices} />
                                 </TableCell>
                             </TableRow>
                         </TableFooter>

@@ -17,7 +17,7 @@ import { InputSearch } from '@/components/ui/input-search';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import ProductLayout from '@/layouts/product/layout';
+import ManagementLayout from '@/layouts/product/layout';
 import { BreadcrumbItem, PaginatedResponse, Product } from '@/types';
 import { Form, Head, Link } from '@inertiajs/react';
 import { Edit, LoaderCircle, Trash2 } from 'lucide-react';
@@ -33,7 +33,7 @@ export default function Index({ products, search }: { products: PaginatedRespons
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Products" />
-            <ProductLayout>
+            <ManagementLayout>
                 <div className="space-y-6">
                     <HeadingSmall title="Products" description="Manage products" />
                 </div>
@@ -166,7 +166,7 @@ export default function Index({ products, search }: { products: PaginatedRespons
 
                     <div></div>
                 </div>
-            </ProductLayout>
+            </ManagementLayout>
         </AppLayout>
     );
 }

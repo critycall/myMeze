@@ -16,43 +16,44 @@ import { Input } from '@/components/ui/input';
 import { InputSearch } from '@/components/ui/input-search';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import ManagementLayout from '@/layouts/product/layout';
-import type { BreadcrumbItem, PaginatedResponse, ProductGroup } from '@/types';
-import { Form, Head } from '@inertiajs/react';
+import { BreadcrumbItem, ContentBlock, PaginatedResponse } from '@/types';
+import { Form, Head, Link } from '@inertiajs/react';
 import { Edit, LoaderCircle, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Products groups',
-        href: '/product-groups',
+        title: 'Content block',
+        href: '/content-blocks',
     },
 ];
-export default function Index({ productGroups, search }: { productGroups: PaginatedResponse<ProductGroup>; search: string }) {
+export default function Index({ contentBlocks, search }: { contentBlocks: PaginatedResponse<ContentBlock>; search: string }) {
     const [open, setOpen] = useState(false);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Product groups" />
+            <Head title="Content blocks" />
             <ManagementLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Product groups" description="Manage product groups" />
+                    <HeadingSmall title="Content blocks" description="Manage montent blocks" />
                 </div>
                 <div className="w-full justify-between md:flex lg:flex-row lg:space-x-12">
                     <Form
                         options={{
                             preserveScroll: true,
                         }}
-                        action={route('product-groups.index')}
+                        action={route('content-blocks.index')}
                     >
                         <InputSearch name="search" defaultValue={search} placeholder={'Search'}></InputSearch>
                     </Form>
                     <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
                             <Button className="mt-3 md:mt-0" variant="default">
-                                New Group
+                                New Block
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
@@ -63,29 +64,36 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                                 method="post"
                                 onSuccess={() => {
                                     setOpen(false);
-                                    toast.success('Product group has been created');
+                                    toast.success('Content block has been created');
                                 }}
                                 resetOnSuccess={['name', 'position']}
-                                action={route('product-groups.store')}
+                                action={route('content-blocks.store')}
                             >
                                 {({ processing, errors }) => (
                                     <>
                                         <DialogHeader>
-                                            <DialogTitle>New product group</DialogTitle>
-                                            <DialogDescription>Insert the name and positon (order) of the new product group</DialogDescription>
+                                            <DialogTitle>New content block</DialogTitle>
+                                            <DialogDescription> </DialogDescription>
                                         </DialogHeader>
                                         <div className="my-4 grid gap-4">
                                             <div className="grid gap-3">
-                                                <Label htmlFor="name">Name</Label>
-                                                <Input required autoComplete="off" id="name" name="name" placeholder="109 Series" />
-                                                <InputError message={errors.name} className="mt-2" />
+                                                <Label htmlFor="title">Title</Label>
+                                                <Input autoComplete="off" id="title" name="title" placeholder="Register your first Headphone" />
+                                                <InputError message={errors.title} className="mt-2" />
                                             </div>
                                         </div>
                                         <div className="my-4 grid gap-4">
                                             <div className="grid gap-3">
-                                                <Label htmlFor="position">Position</Label>
-                                                <Input required id="position" name="position" placeholder="1" />
-                                                <InputError message={errors.position} className="mt-2" />
+                                                <Label htmlFor="key">Key</Label>
+                                                <Input autoComplete="off" id="key" name="key" placeholder="register-first-headpohone" />
+                                                <InputError message={errors.key} className="mt-2" />
+                                            </div>
+                                        </div>
+                                        <div className="my-4 grid gap-4">
+                                            <div className="grid gap-3">
+                                                <Label htmlFor="description">Description</Label>
+                                                <Textarea className="border" id="description" name="description" placeholder="" />
+                                                <InputError message={errors.description} className="mt-2" />
                                             </div>
                                         </div>
                                         <DialogFooter>
@@ -103,24 +111,28 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                         </DialogContent>
                     </Dialog>
                 </div>
-                <div className="border">
+                <div className="w-full overflow-auto border">
                     <Table>
                         <TableHeader>
                             <TableRow className="bg-secondary uppercase">
                                 <TableHead>Id</TableHead>
-                                <TableHead>Name</TableHead>
-                                <TableHead className="">Position</TableHead>
+                                <TableHead>Key</TableHead>
+                                <TableHead className="">Title</TableHead>
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {productGroups.data.map((group) => (
-                                <TableRow key={group.id}>
-                                    <TableCell>{group.id}</TableCell>
-                                    <TableCell className="max-w-32 truncate md:max-w-60">{group.name}</TableCell>
-                                    <TableCell>{group.position}</TableCell>
+                            {contentBlocks.data.map((block: ContentBlock) => (
+                                <TableRow key={block.id}>
+                                    <TableCell>{block.id}</TableCell>
+                                    <TableCell className="max-w-32 truncate md:max-w-60">{block.key}</TableCell>
+                                    <TableCell>{block.title}</TableCell>
                                     <TableCell className="text-right">
-                                        <UpdateGroupDialog group={group} />
+                                        <Link href={route('content-blocks.edit', block.id)}>
+                                            <Button className="mr-2" type="button" size="sm" variant="outline">
+                                                <Edit />
+                                            </Button>
+                                        </Link>
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button type="button" size="sm" variant="destructive">
@@ -134,16 +146,16 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                                                     }}
                                                     method="delete"
                                                     onSuccess={() => {
-                                                        toast.success('Product group has been deleted', {
-                                                            description: group.name + ', Position: ' + group.position,
+                                                        toast.success('Product recipe has been deleted', {
+                                                            description: block.title + ', Key: ' + block.key,
                                                         });
                                                     }}
                                                     onError={(error) => {
-                                                        toast.error('Could not delete product group', {
+                                                        toast.error('Could not delete product recipe', {
                                                             description: error[0],
                                                         });
                                                     }}
-                                                    action={route('product-groups.destroy', group.id)}
+                                                    action={route('content-blocks.destroy', block.id)}
                                                 >
                                                     {({ processing }) => (
                                                         <>
@@ -157,7 +169,7 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                                                                         Cancel
                                                                     </Button>
                                                                 </DialogClose>
-                                                                <Button disabled={processing} variant="destructive" type="submit">
+                                                                <Button variant="destructive" type="submit" disabled={processing}>
                                                                     {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                                                     Continue
                                                                 </Button>
@@ -173,8 +185,8 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                         </TableBody>
                         <TableFooter>
                             <TableRow>
-                                <TableCell colSpan={4}>
-                                    <TablePagination resource={productGroups} />
+                                <TableCell colSpan={7}>
+                                    <TablePagination resource={contentBlocks} />
                                 </TableCell>
                             </TableRow>
                         </TableFooter>
@@ -182,58 +194,5 @@ export default function Index({ productGroups, search }: { productGroups: Pagina
                 </div>
             </ManagementLayout>
         </AppLayout>
-    );
-}
-
-function UpdateGroupDialog({ group }: { group: ProductGroup }) {
-    const [open, setOpen] = useState(false);
-
-    return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button className="mr-2" type="button" size="sm" variant="outline">
-                    <Edit />
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogTitle>Update product group</DialogTitle>
-                <DialogDescription>Modify the product group information</DialogDescription>
-                <Form
-                    options={{
-                        preserveScroll: true,
-                    }}
-                    method="patch"
-                    action={route('product-groups.update', group.id)}
-                    onSuccess={() => {
-                        toast.success('Product group has been updated');
-                        setOpen(false);
-                    }}
-                >
-                    {({ processing, errors }) => (
-                        <>
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
-                                <Input id="name" defaultValue={group.name} type="text" name="name" autoComplete="off" autoFocus />
-                                <InputError message={errors.name} />
-
-                                <Label htmlFor="position">Position</Label>
-                                <Input id="position" defaultValue={group.position} type="text" name="position" />
-                                <InputError message={errors.position} />
-                            </div>
-
-                            <DialogFooter className="mt-4 gap-2">
-                                <DialogClose asChild>
-                                    <Button variant="outline">Cancel</Button>
-                                </DialogClose>
-                                <Button type="submit" disabled={processing}>
-                                    {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                    Update
-                                </Button>
-                            </DialogFooter>
-                        </>
-                    )}
-                </Form>
-            </DialogContent>
-        </Dialog>
     );
 }
