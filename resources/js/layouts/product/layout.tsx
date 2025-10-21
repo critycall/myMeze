@@ -37,6 +37,10 @@ const sidebarNavItems: NavItem[] = [
         href: '/content-blocks',
         icon: null,
     },
+    {
+        title: 'Tags',
+        href: '/tags',
+    }
 ];
 
 export default function ManagementLayout({ children }: PropsWithChildren) {
@@ -51,7 +55,7 @@ export default function ManagementLayout({ children }: PropsWithChildren) {
         <div className="px-4 py-6">
             <Heading title="Management" description="Manage product available content, products, groups, categories, recipes, sevices" />
 
-            <div className="flex flex-col lg:flex-row lg:space-x-12">
+            <div className="flex flex-col lg:flex-row lg:space-x-12 ">
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav className="flex flex-col space-y-1 space-x-0">
                         {sidebarNavItems.map((item, index) => (
@@ -75,7 +79,7 @@ export default function ManagementLayout({ children }: PropsWithChildren) {
 
                 <Separator className="my-6 lg:hidden" />
 
-                <div className="flex-1 md:max-w-5xl">
+                <div className="flex-1 md:max-w-5xl bg-card p-6 border rounded">
                     <section className="max-w-5xl space-y-6">{children}</section>
                 </div>
             </div>

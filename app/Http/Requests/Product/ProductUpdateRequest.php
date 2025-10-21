@@ -14,18 +14,20 @@ class ProductUpdateRequest extends FormRequest
     public function rules(): array
     {
         $productId = $this->route('product')?->id;
-        $activeRequired = 'required_if:status,' . ProductStatus::Active->value;
+        $activeRequired = 'required_if:status,' . ProductStatus::Active->value . ',' . ProductStatus::Published->value;
 
         return [
             'sku' => ['string', 'required', Rule::unique('products', 'sku')->ignore($productId)],
             'name' => ['string', 'required'],
             'status' => ['string', 'required'],
-            'ean' => ['string', 'nullable', $activeRequired],
-            'upc' => ['string', 'nullable', $activeRequired],
-            'description' => ['string', 'nullable', $activeRequired],
+            'ean' => ['string', 'nullable'],
+            'upc' => ['string', 'nullable'],
+            'eu_warranty_days' => ['integer', 'nullable', $activeRequired],
+            'non_eu_warranty_days' => ['integer', 'nullable', $activeRequired],
+            'description' => ['string', 'nullable'],
             'position' => ['integer', 'nullable', $activeRequired],
-            'product_category_id' => ['integer', 'nullable', 'exists:product_categories,id', $activeRequired],
-            'product_group_id' => ['integer', 'nullable', 'exists:product_groups,id', $activeRequired],
+           // 'product_category_id' => ['integer', 'nullable', 'exists:product_categories,id'],
+           // 'product_group_id' => ['integer', 'nullable', 'exists:product_groups,id'],
             'material_id' => ['integer', 'nullable', $activeRequired],
             'msrp' => ['integer', 'nullable', $activeRequired],
             'media_files' => ['nullable', 'array'],

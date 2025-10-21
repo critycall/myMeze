@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_name',
         'email',
         'password',
+        'currency_id',
+        'country_id',
     ];
 
     /**
@@ -52,6 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    protected $with = ['currency'];
+
     public function getNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
@@ -60,5 +65,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function productRegistrations(): HasMany
     {
         return $this->hasMany(ProductRegistration::class);
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 }

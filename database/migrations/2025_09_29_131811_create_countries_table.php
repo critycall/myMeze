@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('shortcut');
             $table->foreignId('currency_id')->constrained();
             $table->string('international_code')->nullable();
+            $table->boolean('is_eu')->default(false);
             $table->timestamps();
         });
     }

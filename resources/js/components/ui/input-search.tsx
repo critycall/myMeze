@@ -16,7 +16,7 @@ export const InputSearch = ({ onSearch, ...props }: InputSearchProps) => {
             <Button
                 type="submit"
                 variant="outline"
-                className="absolute hover:cursor-pointer rounded-l-none right-0 top-1/2 -translate-y-1/2 border-l-2"
+                className="absolute hover:cursor-pointer rounded-l-none rounded-r-md right-0 top-1/2 -translate-y-1/2"
                 onClick={() => onSearch && onSearch((document.querySelector("input") as HTMLInputElement)?.value || "")}
             >
                 <Search className="h-4 w-4" />

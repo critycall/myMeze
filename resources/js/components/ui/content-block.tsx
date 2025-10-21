@@ -40,7 +40,7 @@ function BlockContent({ block }: { block: ContentBlock }) {
                     <ResponsiveImage media={block.background} />
                 )}
 
-                <div className="absolute left-0 bottom-0 w-full text-primary-foreground from-black from-60% bg-gradient-to-t">
+                <div className="absolute left-0 bottom-0 w-full text-primary-foreground dark:text-primary from-black from-60% bg-gradient-to-t">
 
                     {(block.title || block.body) && (
                         <div className="p-6 ml-5 mb-5">

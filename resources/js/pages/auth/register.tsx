@@ -6,9 +6,11 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
+import { Option } from '@/types';
 
-export default function Register() {
+export default function Register({ countries }: { countries: Option[] }) {
     return (
         <AuthLayout title="Create an account" description="Enter your details below to create your account">
             <Head title="Register" />
@@ -64,6 +66,23 @@ export default function Register() {
                                     placeholder="email@example.com"
                                 />
                                 <InputError message={errors.email} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="country_id">Country</Label>
+                                <Select name="country_id" required>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select your country" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {countries.map((s: Option) => (
+                                            <SelectItem key={s.value} value={String(s.value)}>
+                                                {s.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <InputError message={errors.country_id} />
                             </div>
 
                             <div className="grid gap-2">

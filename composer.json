@@ -16,6 +16,7 @@
         "league/flysystem-aws-s3-v3": "3.0",
         "opcodesio/log-viewer": "^3.19",
         "spatie/laravel-medialibrary": "^11.14",
+        "spatie/laravel-tags": "^4.10",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {

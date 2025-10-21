@@ -15,6 +15,7 @@ use Inertia\Response;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Tags\Tag;
 
 class ProductController extends Controller
 {
@@ -38,7 +39,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductStoreRequest $request)
+    public function store(ProductStoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -80,6 +81,14 @@ class ProductController extends Controller
             ];
         });
 
+        $tags = Tag::all(['id', 'name'])->map(function ($tag) {
+            return [
+                'value' => $tag->name,
+                'label' => $tag->name,
+            ];
+        });
+
+        $product->load('variants', 'tags');
         $product->append('gallery');
 
         return Inertia::render('products/edit', [
@@ -87,6 +96,7 @@ class ProductController extends Controller
             'categories' => $categories,
             'groups' => $groups,
             'statuses' => $statuses,
+            'tags' => $tags,
         ]);
     }
 
@@ -117,6 +127,25 @@ class ProductController extends Controller
                     ]);
                 }
             }
+        }
+
+        if ($request->input(['newVariants'])){
+            $validated = $request->validate([
+                'newVariants' => ['nullable', 'array', 'min:1'],
+                'newVariants.*.sku' => ['required', 'string', 'max:255'],
+                'newVariants.*.name' => ['required', 'string', 'max:255'],
+                'newVariants.*.option' => ['required', 'string', 'max:255'],
+                'newVariants.*.price' => ['required', 'numeric', 'min:0'],
+                'newVariants.*.material_id' => ['required', 'string', 'max:255'],
+            ]);
+
+            foreach ($validated['newVariants'] as $variantData) {
+                $product->variants()->create($variantData);
+            }
+        }
+
+        if ($request->input('tags')) {
+            $product->syncTags($request->input('tags'));
         }
 
         return redirect()->route('products.edit', $product)->with('success');
@@ -151,8 +180,43 @@ class ProductController extends Controller
 
             $product->clearMediaCollectionExcept('gallery', $keep);
         } else {
-
             $product->clearMediaCollection('gallery');
         }
+    }
+
+    public function spareParts() : Response
+    {
+        $search = request('search');
+        $products = Product::withAnyTags(['Spare parts'])
+            ->when($search, function ($query, $search) {
+                $query->whereAny(['name', 'sku',], 'like', "%{$search}%");
+            })
+            ->with('variants', 'tags')
+            ->get();
+
+        return Inertia::render('products/collections', [
+            'products' => $products,
+            'search' => $search,
+            'title' => 'SPARE PARTS CATALOGUE',
+            'description' => 'Genuine Meze Audio headphone replacement parts',
+        ]);
+    }
+
+    public function accessories() : Response
+    {
+        $search = request('search');
+        $products = Product::withAnyTags(['Accessories'])
+            ->when($search, function ($query, $search) {
+                $query->whereAny(['name', 'sku',], 'like', "%{$search}%");
+            })
+            ->with('variants', 'tags')
+            ->get();
+
+        return Inertia::render('products/collections', [
+            'products' => $products,
+            'search' => $search,
+            'title' => 'ACCESSORIES CATALOGUE',
+            'description' => 'Elevate your Meze Audio experience',
+        ]);
     }
 }

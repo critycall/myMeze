@@ -22,20 +22,10 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->unsignedSmallInteger('position')->nullable();
-            $table->enum('status', ['draft', 'active' , 'archived', 'discontinued'])->default('draft');
+            $table->unsignedSmallInteger('eu_warranty_days')->nullable();
+            $table->unsignedSmallInteger('non_eu_warranty_days')->nullable();
+            $table->enum('status', ['draft', 'active' , 'archived', 'discontinued', 'published'])->default('draft');
             $table->unsignedBigInteger('material_id')->nullable();
-
-            $table->foreignId('product_category_id')
-                ->nullable()
-                ->constrained('product_categories')
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
-
-            $table->foreignId('product_group_id')
-                ->nullable()
-                ->constrained('product_groups')
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
 
             $table->timestamps();
             $table->index(['product_category_id', 'product_group_id']);

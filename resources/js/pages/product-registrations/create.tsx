@@ -41,7 +41,7 @@ export default function Create({ products }: { products: Option[]}) {
                         >
                             {({ processing, errors }) => (
                                 <>
-                                    <div className="mt-2 bg-background rounded">
+                                    <div className="mt-2 bg-card rounded p-3">
                                         <div className="max-w-xl space-y-6 p-3">
                                             <h2 className="text-xl font-semibold mb-2">Product Details</h2>
                                             <div className="grid gap-2">

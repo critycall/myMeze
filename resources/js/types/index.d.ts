@@ -49,8 +49,14 @@ export interface User {
     created_at: string;
     updated_at: string;
     [key: string]: unknown;
+    currency : Currency
 }
 
+export interface Currency {
+    id: number;
+    name: string;
+    symbol: string;
+}
 export interface PaginatedResponse<T> {
     current_page: number;
     data: T[];
@@ -108,6 +114,8 @@ export interface Product {
     slug: string;
     sku: string;
     description: string;
+    eu_warranty_days: int;
+    non_eu_warranty_days: int;
     position: number;
     msrp: int;
     ean: string;
@@ -122,6 +130,17 @@ export interface Product {
     gallery: Media[];
     services: ProductService[];
     latest_recipe: ProductRecipe;
+    variants: ProductVariant[];
+    tags: Tag[];
+}
+
+export interface ProductVariant {
+    id: number;
+    sku : string;
+    name : string;
+    option : string;
+    price : number;
+    material_id: string;
 }
 
 export interface Media {
@@ -153,7 +172,7 @@ export interface ProductRegistration {
     last_name: string;
     nickname: string;
     email: string;
-    purchased_date: string;
+    purchase_date: string;
     serial_number: string;
     checked: boolean;
     validated: boolean;
@@ -169,6 +188,8 @@ export interface ProductRegistration {
     phone: string;
     can_extend_warranty: boolean;
     created_at: string;
+    remaining_warranty_days: number;
+    expiration_date: string
 }
 
 export interface ContentBlock {
@@ -180,4 +201,12 @@ export interface ContentBlock {
     action_name: string;
     background: Media;
     mobileBackground: Media;
+}
+
+export interface Tag {
+    id: number;
+    name: {
+        en: string;
+    };
+    order_column: string;
 }

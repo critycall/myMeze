@@ -6,12 +6,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import SortableGallery from '@/components/ui/media-galery';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Thumbnail } from '@/components/ui/thumbnail';
 import AppLayout from '@/layouts/app-layout';
 import ManagementLayout from '@/layouts/product/layout';
-import { BreadcrumbItem, Option, Product } from '@/types';
+import { BreadcrumbItem, Option, Product, ProductVariant } from '@/types';
 import { Form, Head } from '@inertiajs/react';
+import { Edit, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { Thumbnail } from '@/components/ui/thumbnail';
+import { MultiSelect } from '@/components/ui/multi-select';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -20,17 +23,28 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Edit({
+export default function EditProduct({
     product,
     categories,
     groups,
     statuses,
+    tags
 }: {
     product: Product;
     categories: Option[];
     groups: Option[];
     statuses: Option[];
+    tags: Option[];
 }) {
+    const [variants, setVariants] = useState<number[]>([]);
+
+    const addVariant = () => {
+        setVariants((prev) => [...prev, prev.length]); // append new index
+    };
+
+    const removeVariant = (index: number) => {
+        setVariants((prev) => prev.filter((_, i) => i !== index));
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -42,6 +56,7 @@ export default function Edit({
                         toast.success('Product has been successfully updated', {
                             description: `${product.name}, Status: ${product.status.charAt(0).toUpperCase() + product.status.slice(1)}`,
                         });
+                        setVariants([]);
                     }}
                     resetOnSuccess={['media_files[]']}
                     action={route('products.update', product.id)}
@@ -92,6 +107,19 @@ export default function Edit({
                                 </div>
 
                                 <div className="grid gap-2">
+                                    <Label htmlFor="description">Description</Label>
+                                    <RichEditor name="description" value={product.description} />
+                                    <InputError className="mt-2" message={errors.description} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="description">Tags</Label>
+                                    <MultiSelect name="tags" options={tags} defaultValue={product.tags.map(tag => tag.name['en'])}/>
+                                    <InputError className="mt-2" message={errors.description} />
+                                </div>
+
+
+                                <div className="grid gap-2">
                                     <Label htmlFor="sku">SKU</Label>
                                     <Input id="sku" name="sku" defaultValue={product.sku} placeholder="SKU" />
                                     <InputError className="mt-2" message={errors.sku} />
@@ -110,6 +138,18 @@ export default function Edit({
                                 </div>
 
                                 <div className="grid gap-2">
+                                    <Label htmlFor="eu_warranty_days">EU Warranty Days</Label>
+                                    <Input id="eu_warranty_days" type="number" name="eu_warranty_days" placeholder="ex: 730" defaultValue={product.eu_warranty_days} />
+                                    <InputError className="mt-2" message={errors.eu_warranty_days} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="non_eu_warranty_days">NON-EU Warranty Days</Label>
+                                    <Input id="non_eu_warranty_days" type="number" name="non_eu_warranty_days" placeholder="ex: 365" defaultValue={product.non_eu_warranty_days} />
+                                    <InputError className="mt-2" message={errors.non_eu_warranty_days} />
+                                </div>
+
+                                <div className="grid gap-2">
                                     <Label htmlFor="ean">EAN</Label>
                                     <Input id="ean" name="ean" defaultValue={product.ean} placeholder="EAN code" />
                                     <InputError className="mt-2" message={errors.ean} />
@@ -125,12 +165,6 @@ export default function Edit({
                                     <Label htmlFor="msrp">MSRP</Label>
                                     <Input id="msrp" type="number" defaultValue={product.msrp} step="0.01" name="msrp" placeholder="0.00" />
                                     <InputError className="mt-2" message={errors.msrp} />
-                                </div>
-
-                                <div className="grid gap-2">
-                                    <Label htmlFor="description">Description</Label>
-                                    <RichEditor name="description" value={product.description} />
-                                    <InputError className="mt-2" message={errors.description} />
                                 </div>
 
                                 <div className="grid gap-2">
@@ -178,6 +212,100 @@ export default function Edit({
                                         </SelectContent>
                                     </Select>
                                     <InputError className="mt-2" message={errors.product_group_id} />
+                                </div>
+
+                                <div className="min-h-32 space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <Label className="text-lg font-semibold">Variants</Label>
+                                        <Button type="button" variant="outline" onClick={addVariant}>
+                                            + Add Variant
+                                        </Button>
+                                    </div>
+
+                                    {product.variants.length > 0 && (
+                                        <div>
+                                            {product.variants.map((variant: ProductVariant) => (
+                                                <div className="rounded border bg-background p-3" key={variant.id}>
+                                                    <p>
+                                                        Option:<span className="font-semibold"> {variant.option}</span>
+                                                    </p>
+                                                    <p>
+                                                        Name:<span className="">  {variant.name}</span>
+                                                    </p>
+                                                    <p></p>
+                                                    <p>
+                                                        SKU:<span className="text-muted-foreground"> {variant.sku}</span>
+                                                    </p>
+                                                    <p>
+                                                        Price:<span className="text-muted-foreground"> {variant.price}</span>
+                                                    </p>
+                                                    <p>
+                                                        Material Id:<span className="text-muted-foreground"> {variant.material_id}</span>
+                                                    </p>
+                                                    <div className="flex justify-end">
+                                                        <Button className="mr-2" type="button" size="sm" variant="outline">
+                                                            <Edit />
+                                                        </Button>
+                                                        <Button type="button" size="sm" variant="destructive">
+                                                            <Trash2></Trash2>
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {variants.map((index) => (
+                                        <div key={index} className="space-y-4 rounded-lg border p-4">
+                                            <div className="grid gap-4 md:grid-cols-2">
+                                                <div className="grid gap-2">
+                                                    <Label>SKU</Label>
+                                                    <Input autoComplete="off" name={`newVariants[${index}][sku]`} placeholder="SKU" />
+                                                    <InputError message={errors[`newVariants.${index}.sku`]} />
+                                                </div>
+
+                                                <div className="grid gap-2">
+                                                    <Label>Name</Label>
+                                                    <Input autoComplete="off" name={`newVariants[${index}][name]`} placeholder="Variant name" />
+                                                    <InputError message={errors[`newVariants.${index}.name`]} />
+
+                                                </div>
+
+                                                <div className="grid gap-2">
+                                                    <Label>Option</Label>
+                                                    <Input name={`newVariants[${index}][option]`} placeholder="Color / Size / Type" />
+                                                    <InputError message={errors[`newVariants.${index}.option`]} />
+                                                </div>
+
+                                                <div className="grid gap-2">
+                                                    <Label>Price</Label>
+                                                    <Input
+                                                        type="number"
+                                                        step="0.01"
+                                                        autoComplete="off"
+                                                        name={`newVariants[${index}][price]`}
+                                                        placeholder="0.00"
+                                                    />
+                                                    <InputError message={errors[`newVariants.${index}.price`]} />
+                                                </div>
+
+                                                <div className="grid gap-2">
+                                                    <Label>Material ID</Label>
+                                                    <Input name={`newVariants[${index}][material_id]`} placeholder="Material ID" />
+                                                    <InputError message={errors[`newVariants.${index}.material_id`]} />
+                                                </div>
+                                            </div>
+
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                className="text-sm text-muted-foreground"
+                                                onClick={() => removeVariant(index)}
+                                            >
+                                                Remove
+                                            </Button>
+                                        </div>
+                                    ))}
                                 </div>
 
                                 <div className="flex items-center gap-4">

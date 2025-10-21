@@ -27,7 +27,7 @@ export default function ResponsiveImage({ media,  className , ...props}: { media
                 const vw = Math.ceil((rect.width / window.innerWidth) * 100);
                 setSizes(`${vw}vw`);
             }}
-            className={cn("w-full h-full object-cover", className)}
+            className={cn("w-full object-cover object-center", className)}
             { ...props}
         />
     );

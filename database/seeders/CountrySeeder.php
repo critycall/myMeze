@@ -53,7 +53,8 @@ class CountrySeeder extends Seeder
                 "name" => "Austria",
                 "shortcut" => "AT",
                 "currency_id" => 47,
-                "international_code" => "AT"
+                "international_code" => "AT",
+                "is_eu" => true,
             ),
             array(
                 "id" => 16,
@@ -67,7 +68,8 @@ class CountrySeeder extends Seeder
                 "name" => "Belgium",
                 "shortcut" => "BE",
                 "currency_id" => 47,
-                "international_code" => "BE"
+                "international_code" => "BE",
+                "is_eu" => true,
             ),
             array(
                 "id" => 31,
@@ -88,7 +90,8 @@ class CountrySeeder extends Seeder
                 "name" => "Bulgaria",
                 "shortcut" => "BG",
                 "currency_id" => 47,
-                "international_code" => "BG"
+                "international_code" => "BG",
+                "is_eu" => true,
             ),
             array(
                 "id" => 41,
@@ -130,28 +133,32 @@ class CountrySeeder extends Seeder
                 "name" => "Croatia",
                 "shortcut" => "HR",
                 "currency_id" => 960,
-                "international_code" => "HR"
+                "international_code" => "HR",
+                "is_eu" => true,
             ),
             array(
                 "id" => 57,
                 "name" => "Cyprus",
                 "shortcut" => "CY",
                 "currency_id" => 47,
-                "international_code" => "CY"
+                "international_code" => "CY",
+                "is_eu" => true,
             ),
             array(
                 "id" => 58,
                 "name" => "Czechia",
                 "shortcut" => "CZ",
                 "currency_id" => 47,
-                "international_code" => "CZ"
+                "international_code" => "CZ",
+                "is_eu" => true,
             ),
             array(
                 "id" => 59,
                 "name" => "Denmark",
                 "shortcut" => "DK",
                 "currency_id" => 47,
-                "international_code" => "DK"
+                "international_code" => "DK",
+                "is_eu" => true,
             ),
             array(
                 "id" => 60,
@@ -193,21 +200,24 @@ class CountrySeeder extends Seeder
                 "name" => "Estonia",
                 "shortcut" => "EE",
                 "currency_id" => 47,
-                "international_code" => "EE"
+                "international_code" => "EE",
+                "is_eu" => true,
             ),
             array(
                 "id" => 73,
                 "name" => "Finland",
                 "shortcut" => "FI",
                 "currency_id" => 47,
-                "international_code" => "FI"
+                "international_code" => "FI",
+                "is_eu" => true,
             ),
             array(
                 "id" => 74,
                 "name" => "France",
                 "shortcut" => "FR",
                 "currency_id" => 47,
-                "international_code" => "FR"
+                "international_code" => "FR",
+                "is_eu" => true,
             ),
             array(
                 "id" => 77,
@@ -228,7 +238,8 @@ class CountrySeeder extends Seeder
                 "name" => "Germany",
                 "shortcut" => "DE",
                 "currency_id" => 47,
-                "international_code" => "DE"
+                "international_code" => "DE",
+                "is_eu" => true,
             ),
             array(
                 "id" => 82,
@@ -242,7 +253,8 @@ class CountrySeeder extends Seeder
                 "name" => "Greece",
                 "shortcut" => "EL",
                 "currency_id" => 47,
-                "international_code" => "EL"
+                "international_code" => "EL",
+                "is_eu" => true,
             ),
             array(
                 "id" => 91,
@@ -256,7 +268,8 @@ class CountrySeeder extends Seeder
                 "name" => "Hungary",
                 "shortcut" => "HU",
                 "currency_id" => 47,
-                "international_code" => "HU"
+                "international_code" => "HU",
+                "is_eu" => true,
             ),
             array(
                 "id" => 99,
@@ -270,35 +283,40 @@ class CountrySeeder extends Seeder
                 "name" => "Ireland",
                 "shortcut" => "IE",
                 "currency_id" => 47,
-                "international_code" => "IE"
+                "international_code" => "IE",
+                "is_eu" => true,
             ),
             array(
                 "id" => 107,
                 "name" => "Italy",
                 "shortcut" => "IT",
                 "currency_id" => 47,
-                "international_code" => "IT"
+                "international_code" => "IT",
+                "is_eu" => true,
             ),
             array(
                 "id" => 126,
                 "name" => "Lithuania",
                 "shortcut" => "LT",
                 "currency_id" => 47,
-                "international_code" => "LT"
+                "international_code" => "LT",
+                "is_eu" => true,
             ),
             array(
                 "id" => 127,
                 "name" => "Luxembourg",
                 "shortcut" => "LU",
                 "currency_id" => 47,
-                "international_code" => "LU"
+                "international_code" => "LU",
+                "is_eu" => true,
             ),
             array(
                 "id" => 135,
                 "name" => "Malta",
                 "shortcut" => "MT",
                 "currency_id" => 47,
-                "international_code" => "MT"
+                "international_code" => "MT",
+                "is_eu" => true,
             ),
             array(
                 "id" => 136,
@@ -319,7 +337,8 @@ class CountrySeeder extends Seeder
                 "name" => "Netherlands",
                 "shortcut" => "NL",
                 "currency_id" => 47,
-                "international_code" => "NL"
+                "international_code" => "NL",
+                "is_eu" => true,
             ),
             array(
                 "id" => 173,
@@ -333,49 +352,56 @@ class CountrySeeder extends Seeder
                 "name" => "Poland",
                 "shortcut" => "PL",
                 "currency_id" => 47,
-                "international_code" => "PL"
+                "international_code" => "PL",
+                "is_eu" => true,
             ),
             array(
                 "id" => 175,
                 "name" => "Portugal",
                 "shortcut" => "PT",
                 "currency_id" => 47,
-                "international_code" => "PT"
+                "international_code" => "PT",
+                "is_eu" => true,
             ),
             array(
                 "id" => 179,
                 "name" => "Romania",
                 "shortcut" => "RO",
                 "currency_id" => 123,
-                "international_code" => "RO"
+                "international_code" => "RO",
+                "is_eu" => true,
             ),
             array(
                 "id" => 196,
                 "name" => "Slovakia",
                 "shortcut" => "SK",
                 "currency_id" => 47,
-                "international_code" => "SK"
+                "international_code" => "SK",
+                "is_eu" => true,
             ),
             array(
                 "id" => 197,
                 "name" => "Slovenia",
                 "shortcut" => "SI",
                 "currency_id" => 47,
-                "international_code" => "SI"
+                "international_code" => "SI",
+                "is_eu" => true,
             ),
             array(
                 "id" => 202,
                 "name" => "Spain",
                 "shortcut" => "ES",
                 "currency_id" => 47,
-                "international_code" => "ES"
+                "international_code" => "ES",
+                "is_eu" => true,
             ),
             array(
                 "id" => 208,
                 "name" => "Sweden",
                 "shortcut" => "SE",
                 "currency_id" => 47,
-                "international_code" => "SE"
+                "international_code" => "SE",
+                "is_eu" => true,
             ),
             array(
                 "id" => 211,
@@ -424,7 +450,8 @@ class CountrySeeder extends Seeder
                 "name" => "Latvia",
                 "shortcut" => "LAT",
                 "currency_id" => 47,
-                "international_code" => "LAT"
+                "international_code" => "LAT",
+                "is_eu" => true,
             ),
             array(
                 "id" => 250,
