@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Tags\HasTags;
 
 class ContentBlock extends Model implements HasMedia
 {
-    use InteractsWithMedia, FormatsMedia, HasFactory;
+    use InteractsWithMedia, FormatsMedia, HasFactory, HasTags;
 
-    protected $fillable = ['key', 'title', 'body', 'action', 'action_name'];
+    protected $fillable = ['key', 'title', 'body', 'action', 'action_name', 'video_url'];
 
     protected $appends = ['background', 'mobileBackground'];
 

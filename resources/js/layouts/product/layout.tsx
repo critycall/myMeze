@@ -52,7 +52,7 @@ export default function ManagementLayout({ children }: PropsWithChildren) {
     const currentPath = window.location.pathname;
 
     return (
-        <div className="px-4 py-6">
+        <div className="px-4 py-6 ">
             <Heading title="Management" description="Manage product available content, products, groups, categories, recipes, sevices" />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12 ">

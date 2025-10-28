@@ -268,7 +268,6 @@ export default function EditProduct({
                                                     <Label>Name</Label>
                                                     <Input autoComplete="off" name={`newVariants[${index}][name]`} placeholder="Variant name" />
                                                     <InputError message={errors[`newVariants.${index}.name`]} />
-
                                                 </div>
 
                                                 <div className="grid gap-2">

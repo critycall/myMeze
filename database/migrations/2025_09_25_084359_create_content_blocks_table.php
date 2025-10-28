@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('key')->unique();
             $table->string('title');
+            $table->foreignId('product_id')->nullable()->constrained('products');
+            $table->string('video_url')->nullable();
             $table->text('body')->nullable();
             $table->string('action')->nullable();
             $table->string('action_name')->nullable();

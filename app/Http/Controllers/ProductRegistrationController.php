@@ -43,17 +43,15 @@ class ProductRegistrationController extends Controller
         $validated = $request->validate([
             'product' => 'required|exists:products,id',
             'serial_number' => 'string',
-            'nickname' => 'nullable|string',
         ]);
 
         $productRegistration = ProductRegistration::create([
             'product_id' => $validated['product'],
             'serial_number' => $validated['serial_number'],
-            'nickname' => $validated['nickname'],
             'user_id' => auth()->id(),
         ]);
 
-        return Redirect::route('product-registrations.show', $productRegistration->id);
+        return Redirect::route('product-registrations.edit', $productRegistration->id);
     }
 
     public function show(ProductRegistration $productRegistration): Response
@@ -94,7 +92,12 @@ class ProductRegistrationController extends Controller
     public function update(Request $request, ProductRegistration $productRegistration): RedirectResponse
     {
         if ($request->only(['nickname'])) {
-            $productRegistration->nickname = $request->get('nickname');
+
+            $validated = $request->validate([
+                'nickname' => 'string|nullable|max:32',
+            ]);
+
+            $productRegistration->nickname = $validated['nickname'];
             $productRegistration->save();
 
             return Redirect::route('product-registrations.show', $productRegistration);

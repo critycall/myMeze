@@ -53,23 +53,35 @@ export default function Dashboard({
                         {productRegistrations.map((registration: ProductRegistration, index: number) => (
                             <div className="flex rounded border border-sidebar-border/70 bg-card" key={index + '-product'}>
                                 <ResponsiveImage className="aspect-square w-1/2 flex-shrink-0" media={registration.product.thumbnail} />
-                                <div className="flex min-h-40 flex-col justify-between p-4">
+                                <div className="flex min-h-40 flex-col justify-between p-2 md:p-4">
                                     <div>
-                                        <h3 className="my-2 font-bold uppercase"> {registration.product.name}</h3>
-                                        <p className="text-sm text-muted-foreground">
+                                        <h3 className="my-2 text-xl font-bold uppercase"> {registration.product.name}</h3>
+                                        {registration.nickname && <Badge className="mb-2 font-normal">{registration.nickname}</Badge>}
+
+                                        <p className="text-sm md:font-normal">
                                             Serial No.
                                             <span> {registration.serial_number}</span>
                                         </p>
 
-                                        {registration.nickname && (
-                                            <Badge variant="secondary" className="my-2 font-normal">
-                                                {registration.nickname}
-                                            </Badge>
+                                        {registration.warranty_days && (
+                                            <div>
+                                                <p className="text-sm md:font-normal">
+                                                    Purchased:
+                                                    <span> {registration.purchase_date}</span>
+                                                </p>{' '}
+                                                <p className="text-sm md:font-normal">
+                                                    {registration.remaining_warranty_days > 0 ? (
+                                                        <span>Under warranty</span>
+                                                    ) : (
+                                                        <span>Warranty expired</span>
+                                                    )}
+                                                </p>
+                                            </div>
                                         )}
                                     </div>
                                     <div>
                                         <Link href={route('product-registrations.show', registration.id)}>
-                                            <Button variant="secondary" className="uppercase">
+                                            <Button variant="secondary" className="uppercase ">
                                                 {' '}
                                                 More info
                                             </Button>

@@ -88,7 +88,6 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 <a
                                                     key={item.title}
                                                     href={item.href}
-                                                    target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="uppercase flex items-center space-x-2 font-medium"
                                                 >

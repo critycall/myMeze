@@ -201,6 +201,8 @@ export interface ContentBlock {
     action_name: string;
     background: Media;
     mobileBackground: Media;
+    video_url : string;
+    tags: Tag[];
 }
 
 export interface Tag {

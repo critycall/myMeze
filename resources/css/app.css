@@ -149,6 +149,7 @@
         background-size: auto;
         font-variant-numeric: lining-nums !important;
         line-height: 1.2 !important;
+        letter-spacing: 0.02em;
     }
 
     .gallery > div:first-child {

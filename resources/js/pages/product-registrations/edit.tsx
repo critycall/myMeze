@@ -150,7 +150,7 @@ export default function Update({ productRegistration, countries }: { productRegi
                                         <div className="flex items-center p-3">
                                             <Button type="submit" disabled={processing}>
                                                 {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                             UPDATE INFORMATIONS
+                                             COMPLETE REGISTRATION
                                             </Button>
                                         </div>
                                     </div>

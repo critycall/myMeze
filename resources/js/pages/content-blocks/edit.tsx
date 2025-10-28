@@ -7,10 +7,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import ManagementLayout from '@/layouts/product/layout';
-import { BreadcrumbItem, ContentBlock } from '@/types';
+import { BreadcrumbItem, ContentBlock, Option } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { MultiSelect } from '@/components/ui/multi-select';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,8 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/product-contentBlocks',
     },
 ];
-export default function Edit({ contentBlock }: { contentBlock: ContentBlock }) {
-
+export default function Edit({ contentBlock, tags }: { contentBlock: ContentBlock; tags: Option[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Product groups" />
@@ -78,6 +79,24 @@ export default function Edit({ contentBlock }: { contentBlock: ContentBlock }) {
                                     </div>
 
                                     <div className="grid gap-2">
+                                        <Label htmlFor="actionName">Video URL</Label>
+                                        <Input
+                                            defaultValue={contentBlock.video_url}
+                                            type="text"
+                                            name="video_url"
+                                            autoComplete="off"
+                                            className="mt-1 block w-full"
+                                        />
+                                        <InputError message={errors.video_url} />
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="description">Tags</Label>
+                                        <MultiSelect name="tags" options={tags} defaultValue={contentBlock.tags.map((tag) => tag.name['en'])} />
+                                        <InputError className="mt-2" message={errors.description} />
+                                    </div>
+
+                                    <div className="grid gap-2">
                                         <Label htmlFor="key">Key</Label>
                                         <Input
                                             id="key"
@@ -112,8 +131,8 @@ export default function Edit({ contentBlock }: { contentBlock: ContentBlock }) {
                                         <InputError message={errors.mobile_background} className="mt-2" />
 
                                         {contentBlock.mobileBackground && (
-                                            <div className="mt-2 w-96">
-                                                <ResponsiveImage media={contentBlock.mobileBackground} />
+                                            <div className="mt-2">
+                                                <ResponsiveImage className="max-h-60 w-fit" media={contentBlock.mobileBackground} />
                                             </div>
                                         )}
                                     </div>

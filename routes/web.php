@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductRegistrationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,11 +14,18 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'] )->name('dashboard');
 
-    Route::resource('product-registrations', \App\Http\Controllers\ProductRegistrationController::class);
+    Route::get('warranty', [DashboardController::class, 'warranty'] )->name('warranty');
 
-    Route::get('collections/spare-parts', [\App\Http\Controllers\ProductController::class, 'spareParts'])->name('parts');
+    Route::get('support/{tab?}', [DashboardController::class, 'support'] )->name('support');
 
-    Route::get('collections/accessories', [\App\Http\Controllers\ProductController::class, 'accessories'])->name('accessories');
+    Route::resource('product-registrations', ProductRegistrationController::class);
+
+    Route::get('collections/spare-parts', [ProductController::class, 'spareParts'])->name('parts');
+
+    Route::get('collections/accessories', [ProductController::class, 'accessories'])->name('accessories');
+
+    Route::post('/contact', [ContactController::class, 'sendContact'])->middleware('throttle:5,1');
+
 });
 
 require __DIR__ . '/settings.php';

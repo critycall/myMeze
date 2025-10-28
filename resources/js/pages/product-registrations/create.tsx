@@ -73,12 +73,6 @@ export default function Create({ products }: { products: Option[]}) {
                                                 <InputError className="mt-2" message={errors.serial_number} />
                                             </div>
 
-                                            <div className="grid gap-2">
-                                                <Label htmlFor="nickname">ADD A TAG</Label>
-                                                <Input id="nickname" type="text" name="nickname" autoComplete="off" className="mt-1 block w-full" />
-                                                <InputError className="mt-2" message={errors.nickname} />
-                                            </div>
-
                                             <div className="flex items-center my-3">
                                                 <Button type="submit" disabled={processing}>
                                                     {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}

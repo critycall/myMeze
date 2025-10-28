@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Tags\Tag;
 
 class ContentBlockController extends Controller
 {
@@ -40,8 +41,18 @@ class ContentBlockController extends Controller
 
     public function edit(ContentBlock $contentBlock): Response
     {
+        $tags = Tag::all(['id', 'name'])->map(function ($tag) {
+            return [
+                'value' => $tag->name,
+                'label' => $tag->name,
+            ];
+        });
+
+        $contentBlock->load('tags');
+
         return Inertia::render('content-blocks/edit', [
             'contentBlock' => $contentBlock,
+            'tags' => $tags,
         ]);
     }
 
@@ -60,6 +71,7 @@ class ContentBlockController extends Controller
             'body' => 'nullable|string',
             'action' => 'nullable|string',
             'action_name' => 'nullable|string',
+            'video_url' => 'nullable|string',
         ]);
 
         $contentBlock->update($validated);
@@ -72,6 +84,10 @@ class ContentBlockController extends Controller
         if ($request->hasFile('mobile_background')) {
             $contentBlock->addMediaFromRequest('mobile_background')
                 ->toMediaCollection('mobileBackground');
+        }
+
+        if ($request->input('tags')) {
+            $contentBlock->syncTags($request->input('tags'));
         }
 
         return redirect()->route('content-blocks.edit', $contentBlock);
