@@ -123,4 +123,9 @@ class ProductRegistrationController extends Controller
 
         return redirect()->route('product-registrations.show', $productRegistration);
     }
+
+    public function download(ProductRegistration $productRegistration)
+    {
+        return $productRegistration->media()->first();
+    }
 }

@@ -66,7 +66,7 @@ class ContentBlockController extends Controller
     public function update(Request $request, ContentBlock $contentBlock): RedirectResponse
     {
         $validated = $request->validate([
-            'key' => ['string', 'required', Rule::unique('content_blocks', 'sku')->ignore($contentBlock->id)],
+            'key' => ['string', 'required', Rule::unique('content_blocks', 'key')->ignore($contentBlock->id)],
             'title' => 'required|string',
             'body' => 'nullable|string',
             'action' => 'nullable|string',

@@ -15,7 +15,7 @@ export default function Warranty() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Warranty" />
             <div className="mx-auto max-w-5xl">
-                <h1 className="text-3xl md:text-6xl my-20 font-bold text-center">WARRANTY POLICY</h1>
+                <h1 className="text-2xl md:text-4xl my-20 font-bold text-center">WARRANTY POLICY</h1>
                 <div className="space-y-6 my-6 p-6 ">
                     <p>Meze Audio guarantees their products against defects in materials or workmanship, as follows:</p>
                     <p>Elite | Empyrean II | Poet | Liric | 109 Pro | Advar – 2 years, applicable worldwide.</p>

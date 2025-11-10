@@ -168,6 +168,12 @@ export default function EditProduct({
                                 </div>
 
                                 <div className="grid gap-2">
+                                    <Label htmlFor="weight">Weight</Label>
+                                    <Input id="weight" type="number" defaultValue={product.weight} step="1" name="weight" placeholder="0" />
+                                    <InputError className="mt-2" message={errors.weight} />
+                                </div>
+
+                                <div className="grid gap-2">
                                     <Label htmlFor="material_id">Material ID</Label>
                                     <Input name="material_id" type="number" placeholder="Material ID" defaultValue={product.material_id} />
                                     <InputError className="mt-2" message={errors.material_id} />

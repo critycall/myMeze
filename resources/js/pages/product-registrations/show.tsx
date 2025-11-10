@@ -19,10 +19,11 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import ContactSupport from '@/sections/contact-support';
 import ProductCard from '@/sections/product-card';
-import { BreadcrumbItem, Product, ProductRecipeItem, ProductRegistration, ProductService, SharedData } from '@/types';
-import { Form, Head, Link, usePage } from '@inertiajs/react';
+import { BreadcrumbItem, Product, ProductRecipeItem, ProductRegistration, ProductService } from '@/types';
+import { Form, Head, Link} from '@inertiajs/react';
 import { Calendar, CalendarDays, Edit, Hash, LoaderCircle, MapPin, Shield } from 'lucide-react';
 import { useState } from 'react';
+import ServiceCard from '@/sections/service-card';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -31,7 +32,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 export default function Show({ productRegistration, accessories }: { productRegistration: ProductRegistration; accessories: Product[] }) {
-    const { auth } = usePage<SharedData>().props;
+
     const [open, setOpen] = useState(false);
 
     return (
@@ -140,36 +141,6 @@ export default function Show({ productRegistration, accessories }: { productRegi
                         </div>
                     </div>
 
-                    {productRegistration.can_extend_warranty && productRegistration.product.services.length > 0 && (
-                        <div>
-                            <div className="flex aspect-auto scroll-m-20 justify-between overflow-hidden py-4 text-center md:text-left">
-                                <h1 className="text-lg font-semibold text-balance uppercase">EXTEND YOUR WARRANTY</h1>
-                            </div>
-                            <div className="rounded bg-card p-4 md:col-span-3">
-                                <div className="grid gap-4 md:grid-cols-3">
-                                    {productRegistration.product.services.length > 0 &&
-                                        productRegistration.product.services.map((service: ProductService) => (
-                                            <div className="rounded border bg-background p-3" key={service.id + productRegistration.product.id}>
-                                                <h3 className="font-semibold uppercase">{service.name}</h3>
-
-                                                <p className="my-1 text-xs">{service.description}</p>
-                                                <div className="flex justify-between pt-3">
-                                                    <p className="my-1 font-semibold">
-                                                        {auth.user.currency.symbol}
-                                                        {service.price}
-                                                    </p>
-                                                    <Button size="sm" variant="default" className="text-xs">
-                                                        {' '}
-                                                        EXTEND WARRANTY
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        ))}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
                     <div className="absolute top-2 right-0">
                         <Dialog open={open} onOpenChange={setOpen}>
                             <DialogTrigger asChild>
@@ -216,11 +187,28 @@ export default function Show({ productRegistration, accessories }: { productRegi
                     </div>
                 </div>
 
+                {productRegistration.can_extend_warranty && productRegistration.product.services.length > 0 && (
+                    <div>
+                        <div className="flex aspect-auto scroll-m-20 justify-between overflow-hidden py-4 text-center md:text-left">
+                            <h1 className="text-lg font-semibold text-balance uppercase">EXTEND YOUR WARRANTY</h1>
+                        </div>
+                        <div className="rounded md:col-span-3">
+                            <div className="grid gap-2 md:grid-cols-3">
+                                {productRegistration.product.services.length > 0 &&
+                                    productRegistration.product.services.map((service: ProductService) => (
+                                        <ServiceCard key={productRegistration.id+service.id} productRegistration={productRegistration.id} service={service} />
+                                    ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+
                 {productRegistration.product.latest_recipe && (
                     <div className="my-10 aspect-auto scroll-m-20 justify-between overflow-hidden text-center md:text-left">
                         <h2 className="mb-4 text-xl font-semibold text-balance uppercase">SPARE PARTS</h2>
 
-                        <div className="grid gap-4 md:grid-cols-4">
+                        <div className="grid gap-4 md:grid-cols-3">
                             {productRegistration.product.latest_recipe.items.map((item: ProductRecipeItem) => (
                                 <div key={item.id + 'recipe-item'}>
                                     <ProductCard product={item.product}></ProductCard>
@@ -234,7 +222,7 @@ export default function Show({ productRegistration, accessories }: { productRegi
                     <div className="my-10 aspect-auto scroll-m-20 justify-between overflow-hidden text-center md:text-left">
                         <h2 className="mb-4 text-xl font-semibold text-balance uppercase">ACCESSORIES</h2>
 
-                        <div className="grid gap-4 md:grid-cols-4">
+                        <div className="grid gap-4 md:grid-cols-3">
                             {accessories.map((item: Product) => (
                                 <div key={item.id + 'recipe-item'}>
                                     <ProductCard product={item}></ProductCard>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('ean')->nullable();
             $table->string('upc')->nullable();
             $table->double('msrp')->nullable();
+            $table->unsignedInteger('msrp')->nullable();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->unsignedSmallInteger('position')->nullable();
@@ -26,6 +27,18 @@ return new class extends Migration
             $table->unsignedSmallInteger('non_eu_warranty_days')->nullable();
             $table->enum('status', ['draft', 'active' , 'archived', 'discontinued', 'published'])->default('draft');
             $table->unsignedBigInteger('material_id')->nullable();
+
+            $table->foreignId('product_category_id')
+                ->nullable()
+                ->constrained('product_categories')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
+
+            $table->foreignId('product_group_id')
+                ->nullable()
+                ->constrained('product_groups')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
 
             $table->timestamps();
             $table->index(['product_category_id', 'product_group_id']);

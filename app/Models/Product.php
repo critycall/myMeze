@@ -30,7 +30,7 @@ class Product extends Model implements HasMedia
     protected $fillable = [
         'sku', 'name', 'barcode', 'description', 'status', 'position', 'slug', 'quantity', 'msrp',
         'product_category_id', 'product_group_id', 'msrp', 'ean', 'upc', 'material_id', 'non_eu_warranty_days',
-        'eu_warranty_days', 'warranty_days',
+        'eu_warranty_days', 'warranty_days', 'weight',
     ];
 
     protected static function boot(): void

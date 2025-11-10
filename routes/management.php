@@ -31,4 +31,6 @@ Route::middleware(['auth', 'can:manage-app'])->group(function () {
 
     Route::resource('tags', \App\Http\Controllers\TagController::class)
         ->except(['edit', 'show']);
+
+    Route::get('product-registrations/{product_registration}/download', [\App\Http\Controllers\ProductRegistrationController::class, 'download'])->name('product-registrations.download');
 });

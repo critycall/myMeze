@@ -21,8 +21,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Create({ products }: { products: Option[]}) {
     const { auth } = usePage<SharedData>().props;
 
-    console.log(auth)
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="p-3 md:p-6">

@@ -20,7 +20,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                     {name}
                 </Link>
                 {quote && (
-                    <div className="relative z-20 mt-auto">
+                    <div className="relative z-20 mt-auto max-w-3xl">
                         <blockquote className="space-y-2">
                             <p className="text-sm">&ldquo;{quote.message}&rdquo;</p>
                             <footer className="text-neutral-300">{quote.author}</footer>

@@ -40,7 +40,7 @@ export default function Register({ countries }: { countries: Option[] }) {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="last_name">First name</Label>
+                                <Label htmlFor="last_name">Last name</Label>
                                 <Input
                                     id="last_name"
                                     type="text"

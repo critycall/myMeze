@@ -118,6 +118,7 @@ export interface Product {
     non_eu_warranty_days: int;
     position: number;
     msrp: int;
+    weight: number;
     ean: string;
     upc: string;
     status: string;
@@ -163,7 +164,7 @@ export interface ProductService {
 }
 
 export interface ProductRegistration {
-    id: number;
+    id: string;
     product: Product;
     product_id: string;
     user: User;

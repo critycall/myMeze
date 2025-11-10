@@ -71,4 +71,10 @@ class ProductRegistration extends Model implements HasMedia
 
         return Carbon::parse($this->getRawOriginal('purchase_date'))->format('d M Y');
     }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('receipts')
+            ->useDisk('private');
+    }
 }

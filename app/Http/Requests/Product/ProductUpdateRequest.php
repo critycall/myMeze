@@ -33,6 +33,7 @@ class ProductUpdateRequest extends FormRequest
             'media_files' => ['nullable', 'array'],
             'media_files.*' => ['file', 'mimes:jpg,jpeg,png,gif,webp', 'max:10240'],
             'media_order' => ['nullable', 'array'],
+            'weight' => ['integer', 'nullable', $activeRequired],
         ];
     }
 

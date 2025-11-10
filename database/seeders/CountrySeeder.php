@@ -18,35 +18,40 @@ class CountrySeeder extends Seeder
                 "name" => "UAE",
                 "shortcut" => "UAE",
                 "currency_id" => 155,
-                "international_code" => "AE"
+                "international_code" => "AE",
+                "is_eu" => false
             ),
             array(
                 "id" => 2,
                 "name" => "Trinidad and Tobago",
                 "shortcut" => "TAT",
                 "currency_id" => 155,
-                "international_code" => "TAT"
+                "international_code" => "TAT",
+                "is_eu" => false
             ),
             array(
                 "id" => 3,
                 "name" => "Chile",
                 "shortcut" => "Cl",
                 "currency_id" => 155,
-                "international_code" => "CL"
+                "international_code" => "CL",
+                "is_eu" => false
             ),
             array(
                 "id" => 4,
                 "name" => "Saudi Arabia",
                 "shortcut" => "SA",
                 "currency_id" => 155,
-                "international_code" => "SA"
+                "international_code" => "SA",
+                "is_eu" => false
             ),
             array(
                 "id" => 11,
                 "name" => "Argentina",
                 "shortcut" => "AR",
                 "currency_id" => 47,
-                "international_code" => "AR"
+                "international_code" => "AR",
+                "is_eu" => false
             ),
             array(
                 "id" => 15,
@@ -61,7 +66,8 @@ class CountrySeeder extends Seeder
                 "name" => "South Africa",
                 "shortcut" => "AS",
                 "currency_id" => 155,
-                "international_code" => "ZA"
+                "international_code" => "ZA",
+                "is_eu" => false
             ),
             array(
                 "id" => 22,
@@ -76,14 +82,16 @@ class CountrySeeder extends Seeder
                 "name" => "Brazil",
                 "shortcut" => "BR",
                 "currency_id" => 155,
-                "international_code" => "BR"
+                "international_code" => "BR",
+                "is_eu" => false
             ),
             array(
                 "id" => 33,
                 "name" => "Hong Kong",
                 "shortcut" => "HK",
                 "currency_id" => 344,
-                "international_code" => "HK"
+                "international_code" => "HK",
+                "is_eu" => false
             ),
             array(
                 "id" => 34,
@@ -98,35 +106,40 @@ class CountrySeeder extends Seeder
                 "name" => "Switzerland",
                 "shortcut" => "SUI",
                 "currency_id" => 47,
-                "international_code" => "CH"
+                "international_code" => "CH",
+                "is_eu" => false
             ),
             array(
                 "id" => 44,
                 "name" => "Canada",
                 "shortcut" => "CA",
                 "currency_id" => 124,
-                "international_code" => "CA"
+                "international_code" => "CA",
+                "is_eu" => false
             ),
             array(
                 "id" => 45,
                 "name" => "China",
                 "shortcut" => "CN",
                 "currency_id" => 155,
-                "international_code" => "CN"
+                "international_code" => "CN",
+                "is_eu" => false
             ),
             array(
                 "id" => 47,
                 "name" => "Norway",
                 "shortcut" => "NOR",
                 "currency_id" => 47,
-                "international_code" => "NOR"
+                "international_code" => "NOR",
+                "is_eu" => false
             ),
             array(
                 "id" => 55,
                 "name" => "Paraguay",
                 "shortcut" => "PY",
                 "currency_id" => 155,
-                "international_code" => "PY"
+                "international_code" => "PY",
+                "is_eu" => false
             ),
             array(
                 "id" => 56,
@@ -165,35 +178,40 @@ class CountrySeeder extends Seeder
                 "name" => "Columbia",
                 "shortcut" => "CO",
                 "currency_id" => 123,
-                "international_code" => "CO"
+                "international_code" => "CO",
+                "is_eu" => false
             ),
             array(
                 "id" => 61,
                 "name" => "Australia",
                 "shortcut" => "AU",
                 "currency_id" => 155,
-                "international_code" => "AU"
+                "international_code" => "AU",
+                "is_eu" => false
             ),
             array(
                 "id" => 62,
                 "name" => "Indonesia",
                 "shortcut" => "ID",
                 "currency_id" => 155,
-                "international_code" => "ID"
+                "international_code" => "ID",
+                "is_eu" => false
             ),
             array(
                 "id" => 63,
                 "name" => "Philippines",
                 "shortcut" => "PHI",
                 "currency_id" => 123,
-                "international_code" => "PHI"
+                "international_code" => "PHI",
+                "is_eu" => false
             ),
             array(
                 "id" => 65,
                 "name" => "Singapore",
                 "shortcut" => "SG",
                 "currency_id" => 155,
-                "international_code" => "SG"
+                "international_code" => "SG",
+                "is_eu" => false
             ),
             array(
                 "id" => 68,
@@ -220,20 +238,6 @@ class CountrySeeder extends Seeder
                 "is_eu" => true,
             ),
             array(
-                "id" => 77,
-                "name" => "Marketing EURO",
-                "shortcut" => "Mk",
-                "currency_id" => 47,
-                "international_code" => null
-            ),
-            array(
-                "id" => 78,
-                "name" => "Marketing USD",
-                "shortcut" => "Mk",
-                "currency_id" => 155,
-                "international_code" => null
-            ),
-            array(
                 "id" => 81,
                 "name" => "Germany",
                 "shortcut" => "DE",
@@ -246,7 +250,8 @@ class CountrySeeder extends Seeder
                 "name" => "Japan",
                 "shortcut" => "JP",
                 "currency_id" => 155,
-                "international_code" => "JP"
+                "international_code" => "JP",
+                "is_eu" => false
             ),
             array(
                 "id" => 84,
@@ -261,7 +266,8 @@ class CountrySeeder extends Seeder
                 "name" => "India",
                 "shortcut" => "IN",
                 "currency_id" => 155,
-                "international_code" => "IN"
+                "international_code" => "IN",
+                "is_eu" => false
             ),
             array(
                 "id" => 98,
@@ -276,7 +282,8 @@ class CountrySeeder extends Seeder
                 "name" => "Vietnam",
                 "shortcut" => "VN",
                 "currency_id" => 155,
-                "international_code" => "VN"
+                "international_code" => "VN",
+                "is_eu" => false
             ),
             array(
                 "id" => 104,
@@ -323,14 +330,16 @@ class CountrySeeder extends Seeder
                 "name" => "Montenegro",
                 "shortcut" => "XM",
                 "currency_id" => 123,
-                "international_code" => "ME"
+                "international_code" => "ME",
+                "is_eu" => false
             ),
             array(
                 "id" => 137,
                 "name" => "Malaysia",
                 "shortcut" => "MY",
                 "currency_id" => 155,
-                "international_code" => "MY"
+                "international_code" => "MY",
+                "is_eu" => false
             ),
             array(
                 "id" => 153,
@@ -345,7 +354,8 @@ class CountrySeeder extends Seeder
                 "name" => "Peru",
                 "shortcut" => "PE",
                 "currency_id" => 123,
-                "international_code" => "PE"
+                "international_code" => "PE",
+                "is_eu" => false
             ),
             array(
                 "id" => 174,
@@ -408,42 +418,48 @@ class CountrySeeder extends Seeder
                 "name" => "Taiwan",
                 "shortcut" => "TW",
                 "currency_id" => 155,
-                "international_code" => "TW"
+                "international_code" => "TW",
+                "is_eu" => false
             ),
             array(
                 "id" => 212,
                 "name" => "Turkey",
                 "shortcut" => "TK",
                 "currency_id" => 123,
-                "international_code" => "TK"
+                "international_code" => "TK",
+                "is_eu" => false
             ),
             array(
                 "id" => 213,
                 "name" => "Thailand",
                 "shortcut" => "TA",
                 "currency_id" => 155,
-                "international_code" => "TA"
+                "international_code" => "TA",
+                "is_eu" => false
             ),
             array(
                 "id" => 228,
                 "name" => "United Kingdom",
                 "shortcut" => "GB",
                 "currency_id" => 47,
-                "international_code" => "GB"
+                "international_code" => "GB",
+                "is_eu" => false
             ),
             array(
                 "id" => 229,
                 "name" => "United States",
                 "shortcut" => "US",
                 "currency_id" => 155,
-                "international_code" => "US"
+                "international_code" => "US",
+                "is_eu" => false
             ),
             array(
                 "id" => 230,
                 "name" => "Ukraine",
                 "shortcut" => "UA",
                 "currency_id" => 155,
-                "international_code" => "UA"
+                "international_code" => "UA",
+                "is_eu" => false
             ),
             array(
                 "id" => 247,
@@ -458,133 +474,152 @@ class CountrySeeder extends Seeder
                 "name" => "Russia",
                 "shortcut" => "RUS",
                 "currency_id" => 155,
-                "international_code" => "RU"
+                "international_code" => "RU",
+                "is_eu" => false
             ),
             array(
                 "id" => 251,
                 "name" => "Moldova",
                 "shortcut" => "MDA",
                 "currency_id" => 47,
-                "international_code" => "MD"
+                "international_code" => "MD",
+                "is_eu" => false
             ),
             array(
                 "id" => 257,
                 "name" => "Belarus",
                 "shortcut" => "BLR",
                 "currency_id" => 123,
-                "international_code" => "BLR"
+                "international_code" => "BLR",
+                "is_eu" => false
             ),
             array(
                 "id" => 260,
                 "name" => "Bangladesh",
                 "shortcut" => "BGD",
                 "currency_id" => 155,
-                "international_code" => "BGD"
+                "international_code" => "BGD",
+                "is_eu" => false
             ),
             array(
                 "id" => 300,
                 "name" => "Kazahstan",
                 "shortcut" => "KAZ",
                 "currency_id" => 47,
-                "international_code" => "KAZ"
+                "international_code" => "KAZ",
+                "is_eu" => false
             ),
             array(
                 "id" => 425,
                 "name" => "Israel",
                 "shortcut" => "ISR",
                 "currency_id" => 155,
-                "international_code" => "IL"
+                "international_code" => "IL",
+                "is_eu" => false
             ),
             array(
                 "id" => 450,
                 "name" => "South Korea",
                 "shortcut" => "KOR",
                 "currency_id" => 155,
-                "international_code" => "KR"
+                "international_code" => "KR",
+                "is_eu" => false
             ),
             array(
                 "id" => 451,
                 "name" => "New Zealand",
                 "shortcut" => "ID",
                 "currency_id" => 155,
-                "international_code" => "NZ"
+                "international_code" => "NZ",
+                "is_eu" => false
             ),
             array(
                 "id" => 454,
                 "name" => "Armenia",
                 "shortcut" => "ARM",
                 "currency_id" => 47,
-                "international_code" => "AM"
+                "international_code" => "AM",
+                "is_eu" => false
             ),
             array(
                 "id" => 455,
                 "name" => "Liechtenstein",
                 "shortcut" => "LI",
                 "currency_id" => 47,
-                "international_code" => "LI"
+                "international_code" => "LI",
+                "is_eu" => false
             ),
             array(
                 "id" => 456,
                 "name" => "Bolivia",
                 "shortcut" => "BOL",
                 "currency_id" => 155,
-                "international_code" => "BOL"
+                "international_code" => "BOL",
+                "is_eu" => false
             ),
             array(
                 "id" => 457,
                 "name" => "Ecuador",
                 "shortcut" => "ECU",
                 "currency_id" => 155,
-                "international_code" => "ECU"
+                "international_code" => "ECU",
+                "is_eu" => false
             ),
             array(
                 "id" => 458,
                 "name" => "Martinique",
                 "shortcut" => "MQ",
                 "currency_id" => 47,
-                "international_code" => "MQ"
+                "international_code" => "MQ",
+                "is_eu" => false
             ),
             array(
                 "id" => 459,
                 "name" => "Mexic",
                 "shortcut" => "MX",
                 "currency_id" => 155,
-                "international_code" => "MX"
+                "international_code" => "MX",
+                "is_eu" => false
             ),
             array(
                 "id" => 460,
                 "name" => "Costa Rica",
                 "shortcut" => "CR",
                 "currency_id" => 155,
-                "international_code" => "CR"
+                "international_code" => "CR",
+                "is_eu" => false
             ),
             array(
                 "id" => 461,
                 "name" => "Belize",
                 "shortcut" => "BZ",
                 "currency_id" => 155,
-                "international_code" => "BZ"
+                "international_code" => "BZ",
+                "is_eu" => false
             ),
             array(
                 "id" => 462,
                 "name" => "Panama",
                 "shortcut" => "PA",
                 "currency_id" => 155,
-                "international_code" => null
+                "international_code" => '',
+                "is_eu" => false
             ),
             array(
                 "id" => 466,
                 "name" => "Iles St-Pierre et Miquelon",
                 "shortcut" => "SPM",
                 "currency_id" => 47,
-                "international_code" => null
+                "international_code" => '',
+                "is_eu" => false
             ),
             array(
                 "id" => 467,
                 "name" => "Reunion",
                 "shortcut" => "RE",
                 "currency_id" => 47,
-                "international_code" => null
+                "international_code" => '',
+                "is_eu" => false
             )
         ];
 

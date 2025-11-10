@@ -14,6 +14,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { Award, CircleUser, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
+import CartDrawer from '@/components/card-drawer';
 
 const mainNavItems: NavItem[] = [
     {
@@ -41,7 +42,7 @@ const rightNavItems: NavItem[] = [
         title: 'Support',
         href: '/support',
         icon: CircleUser,
-    },
+    }
 ];
 
 const activeItemStyles = '';
@@ -157,6 +158,10 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                 ))}
                             </div>
                         </div>
+                        <div className="flex items-center space-x-3">
+                            <CartDrawer/>
+                        </div>
+
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="size-10 rounded-full p-1">

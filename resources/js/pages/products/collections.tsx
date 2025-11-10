@@ -25,7 +25,7 @@ export default function Collection({
 }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title={title} />
             <div className="p-3 md:p-6">
                 <div className="my-6 md:my-0 text-center md:text-left" >
                     <Heading title={title} description={description} />

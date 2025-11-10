@@ -51,6 +51,14 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'sharedCart' => [
+                'count' => $request->user()
+                    ? \App\Models\Cart::where('user_id', $request->user()->id)
+                    ->withCount('items')
+                    ->first()
+                    ?->items_count ?? 0
+                    : 0,
+            ],
         ];
     }
 }
