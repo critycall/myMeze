@@ -14,7 +14,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { Award, CircleUser, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import CartDrawer from '@/components/card-drawer';
+import CartDrawer from '@/components/cart-drawer';
 
 const mainNavItems: NavItem[] = [
     {

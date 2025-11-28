@@ -36,9 +36,14 @@ class ProductRegistration extends Model implements HasMedia
         return $this->belongsTo(Product::class);
     }
 
+    public function productService(): BelongsTo
+    {
+        return $this->belongsTo(ProductService::class);
+    }
+
     public function getCanExtendWarrantyAttribute(): bool
     {
-        if (isset($this->material_service_id)) {
+        if (isset($this->product_service_id)) {
             return false;
         }
 
@@ -69,7 +74,7 @@ class ProductRegistration extends Model implements HasMedia
             return '';
         }
 
-        return Carbon::parse($this->getRawOriginal('purchase_date'))->format('d M Y');
+        return today()->addDays($this->warranty_days)->format('d M Y');
     }
 
     public function registerMediaCollections(): void

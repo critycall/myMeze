@@ -18,23 +18,25 @@ const sidebarNavItems: NavItem[] = [
         icon: null,
     },
     {
-        title: 'Appearance',
-        href: '/settings/appearance',
+        title: 'Orders',
+        href: '/orders',
         icon: null,
     },
 ];
 
-export default function SettingsLayout({ children }: PropsWithChildren) {
-    // When server-side rendering, we only render the layout on the client...
-    if (typeof window === 'undefined') {
-        return null;
-    }
+export default function SettingsLayout({ children, size = "md" }: PropsWithChildren & { size?: "sm" | "md" | "lg" }) {
+    const maxWidthClasses = {
+        sm: "max-w-lg",
+        md: "max-w-xl",
+        lg: "max-w-3xl",
+    };
+
 
     const currentPath = window.location.pathname;
 
     return (
         <div className="px-4 py-6">
-            <Heading title="Settings" description="Manage your profile and account settings" />
+            <Heading title="Account" description="Manage your profile, orders and account settings" />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">
@@ -46,7 +48,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                 variant="ghost"
                                 asChild
                                 className={cn('w-full justify-start', {
-                                    'bg-muted': currentPath === item.href,
+                                    'bg-muted': currentPath.includes(item.href) ,
                                 })}
                             >
                                 <Link href={item.href} prefetch>
@@ -60,8 +62,10 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
 
                 <Separator className="my-6 lg:hidden" />
 
-                <div className="flex-1 md:max-w-2xl">
-                    <section className="max-w-xl space-y-12">{children}</section>
+                <div className="flex-1">
+                    <section className={cn(maxWidthClasses[size], "space-y-12")}>
+                        {children}
+                    </section>
                 </div>
             </div>
         </div>

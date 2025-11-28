@@ -49,7 +49,7 @@ export interface User {
     created_at: string;
     updated_at: string;
     [key: string]: unknown;
-    currency : Currency
+    currency: Currency;
 }
 
 export interface Currency {
@@ -137,10 +137,10 @@ export interface Product {
 
 export interface ProductVariant {
     id: number;
-    sku : string;
-    name : string;
-    option : string;
-    price : number;
+    sku: string;
+    name: string;
+    option: string;
+    price: number;
     material_id: string;
 }
 
@@ -190,7 +190,7 @@ export interface ProductRegistration {
     can_extend_warranty: boolean;
     created_at: string;
     remaining_warranty_days: number;
-    expiration_date: string
+    expiration_date: string;
 }
 
 export interface ContentBlock {
@@ -202,7 +202,7 @@ export interface ContentBlock {
     action_name: string;
     background: Media;
     mobileBackground: Media;
-    video_url : string;
+    video_url: string;
     tags: Tag[];
 }
 
@@ -212,4 +212,36 @@ export interface Tag {
         en: string;
     };
     order_column: string;
+}
+
+export interface Order {
+    id: number;
+    items: OrderItem[];
+    number: string;
+    description: string;
+    quantity: number;
+    price: number;
+    currency: Currency;
+    created_at: string;
+    status: string;
+    payment_status: string;
+    total: number;
+    tracking_number: string;
+    carrier: Carrier;
+    shipping_cost: number;
+}
+
+export interface OrderItem {
+    id: number;
+    name: string;
+    description: string;
+    quantity: number;
+    price: number;
+    total: number;
+}
+
+export interface Carrier {
+    id: number;
+    name: string;
+    tracking_url: string;
 }

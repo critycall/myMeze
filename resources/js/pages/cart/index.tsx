@@ -11,9 +11,11 @@ import AppLayout from '@/layouts/app-layout';
 import { Auth, Option } from '@/types';
 import { Form, Head, router, usePage } from '@inertiajs/react';
 import axios from 'axios';
-import { Award, LoaderCircle } from 'lucide-react';
+import { Award, LoaderCircle, ShoppingBasket } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-export default function Checkout({ countries }: { countries: Option[] }) {
+import { Icon } from '@/components/ui/icon';
+
+export default function Checkout({ countries, cart_id }: { countries: Option[]; cart_id: number }) {
     const [useSameForBilling, setUseSameForBilling] = useState(true);
 
     const { auth, sharedCart } = usePage().props as unknown as {
@@ -119,21 +121,23 @@ export default function Checkout({ countries }: { countries: Option[] }) {
     }, []);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            if (shippingForm.country_id && shippingForm.postal_code && shippingForm.address.length > 3) {
-                calculateShipping();
-            }
-        }, 600);
-
-        return () => clearTimeout(timeout);
-    }, [calculateShipping, shippingForm]);
+        if (shippingForm.country_id && shippingForm.postal_code && shippingForm.address.length > 3) {
+            calculateShipping();
+        }
+    }, [shippingForm.country_id, shippingForm.postal_code, shippingForm.address]);
 
     return (
         <AppLayout>
             <Head title="Checkout" />
-            <Form method="post" action={route('register')} disableWhileProcessing className="flex flex-col gap-6">
+            <Form
+                method="post"
+                transform={(data) => ({ ...data, shipping_cost: shipping.cost })}
+                action={route('orders.store', cart_id)}
+                disableWhileProcessing
+                className="flex flex-col p-2"
+            >
                 {({ processing, errors }) => (
-                    <div className="grid h-full gap-3 md:grid-cols-2">
+                    <div className="grid h-full gap-3 lg:grid-cols-2">
                         <div className="">
                             <div className="mt-6 grid gap-6 rounded-md border border-border p-4 transition-all duration-300 ease-in-out">
                                 <h4 className="text-sm font-medium">Shipping Information</h4>
@@ -158,19 +162,12 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                             id="last_name"
                                             type="text"
                                             required
-                                            autoFocus
                                             autoComplete="last_name"
                                             name="last_name"
                                             defaultValue={auth.user.last_name}
                                         />
                                         <InputError message={errors.last_name} className="mt-2" />
                                     </div>
-                                </div>
-
-                                <div className="grid gap-2">
-                                    <Label htmlFor="last_name">Phone</Label>
-                                    <Input id="phone" type="text" required autoFocus autoComplete="phone" name="phone" placeholder="" />
-                                    <InputError message={errors.last_name} className="mt-2" />
                                 </div>
 
                                 <div className="grid gap-2">
@@ -194,10 +191,10 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                     <InputError message={errors.country_id} />
                                 </div>
 
-                                <div className="grid gap-3 md:grid-cols-3">
+                                <div className="grid gap-3 lg:grid-cols-3">
                                     <div className="grid gap-2">
                                         <Label htmlFor="city">City</Label>
-                                        <Input id="city" type="text" required autoFocus autoComplete="city" name="city" placeholder="" />
+                                        <Input id="city" type="text"  onBlur={(e) => handleFieldChange('city', e.target.value)} required autoComplete="city" name="city" placeholder="" />
                                         <InputError message={errors.city} className="mt-2" />
                                     </div>
                                     <div className="grid gap-2">
@@ -206,11 +203,10 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                             id="postal_code"
                                             type="text"
                                             required
-                                            autoFocus
                                             autoComplete="postal_code"
                                             name="postal_code"
                                             placeholder=""
-                                            onChange={(e) => handleFieldChange('postal_code', e.target.value)}
+                                            onBlur={(e) => handleFieldChange('postal_code', e.target.value)}
                                         />
                                         <InputError message={errors.postal_code} className="mt-2" />
                                     </div>
@@ -221,11 +217,10 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                             id="county"
                                             type="text"
                                             required
-                                            autoFocus
                                             autoComplete="county"
                                             name="county"
                                             placeholder=""
-                                            onChange={(e) => handleFieldChange('county', e.target.value)}
+                                            onBlur={(e) => handleFieldChange('county', e.target.value)}
                                         />
                                         <InputError message={errors.county} className="mt-2" />
                                     </div>
@@ -233,8 +228,14 @@ export default function Checkout({ countries }: { countries: Option[] }) {
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="address">Address</Label>
-                                    <Input type="text" name="address" className="" onChange={(e) => handleFieldChange('address', e.target.value)} />
+                                    <Input type="text" name="address" className="" onBlur={(e) => handleFieldChange('address', e.target.value)} />
                                     <InputError message={errors.address} className="mt-2" />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="phone">Phone</Label>
+                                    <Input id="phone" type="text" required autoComplete="phone" name="phone" placeholder="" />
+                                    <InputError message={errors.last_name} className="mt-2" />
                                 </div>
                             </div>
                             <div className="flex items-center space-x-2 pt-4">
@@ -284,7 +285,7 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                         </Select>
                                     </div>
 
-                                    <div className="grid gap-3 md:grid-cols-3">
+                                    <div className="grid gap-3 lg:grid-cols-3">
                                         <div className="grid gap-2">
                                             <Label htmlFor="billing_city">City</Label>
                                             <Input id="billing_city" name="billing_city" type="text" />
@@ -306,26 +307,22 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                 </div>
                             )}
                         </div>
-                        <div className="max-w-xl">
+                        <div className="">
                             <div className="mt-6 flex-1 space-y-6 overflow-y-auto px-6">
                                 {loading ? (
-                                    // 🦴 Skeleton placeholders
                                     Array.from({ length: sharedCart.count }).map((_, i) => (
                                         <div key={i} className="flex items-center justify-between gap-3">
                                             <div className="flex items-center gap-3">
-                                                {/* 🖼 Image placeholder */}
                                                 <Skeleton className="h-18 w-18 rounded-md" />
 
-                                                {/* 🧾 Text lines */}
                                                 <div className="space-y-2">
-                                                    <Skeleton className="h-4 w-40" /> {/* product name */}
-                                                    <Skeleton className="h-3 w-32" /> {/* variant or model */}
-                                                    <Skeleton className="h-3 w-28" /> {/* serial number */}
-                                                    <Skeleton className="h-3 w-20" /> {/* price */}
+                                                    <Skeleton className="h-4 w-40" />
+                                                    <Skeleton className="h-3 w-32" />
+                                                    <Skeleton className="h-3 w-28" />
+                                                    <Skeleton className="h-3 w-20" />
                                                 </div>
                                             </div>
 
-                                            {/* 🔢 Quantity placeholder */}
                                             <div className="flex flex-col items-end space-y-2 text-sm">
                                                 <Skeleton className="h-6 w-12 rounded-md" />
                                                 <Skeleton className="h-3 w-10" />
@@ -333,9 +330,14 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                         </div>
                                     ))
                                 ) : cart.items.length === 0 ? (
-                                    <div className="mt-10 text-center text-muted-foreground">Your cart is empty.</div>
+                                    <div className="text-muted-foreground">
+                                        <span>
+                                            <Icon iconNode={ShoppingBasket}/>
+                                            Your cart is empty.
+                                        </span>
+                                    </div>
                                 ) : (
-                                    // ✅ Actual items once loaded
+
                                     cart.items.map((item) => (
                                         <div key={item.id} className="flex items-center justify-between gap-3">
                                             <div className="flex items-center gap-3">
@@ -399,6 +401,7 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                                     />
                                                 </div>
                                                 <button
+                                                    type="button"
                                                     className="mt-1 text-xs text-muted-foreground hover:underline"
                                                     onClick={() => handleRemove(item.id)}
                                                 >
@@ -410,14 +413,14 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                 )}
                             </div>
 
-                            <div className="col-start-2 p-2">
+                            <div className="mt-2">
                                 <div className="grid gap-2">
                                     <Label htmlFor="notes">Order notes</Label>
                                     <Textarea name="notes" rows={2} className="text-xs"></Textarea>
                                     <InputError message={errors.notes} className="mt-2" />
                                 </div>
 
-                                <div className="flex justify-between text-sm font-medium">
+                                <div className="mt-2 flex justify-between text-sm font-medium">
                                     <span>Order summary</span>
                                     <span className="font-semibold">
                                         {auth.user.currency.symbol}
@@ -449,16 +452,18 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                                 {shipping && shipping.digital && (
                                     <div className="mt-2 flex items-center justify-between text-sm font-medium text-muted-foreground">
                                         <span> This is a digital product, does not require shipping</span>
-
                                     </div>
                                 )}
 
                                 {!shipping && (
-                                    <div className="mt-2 text-xs text-muted-foreground">
+                                <div className="mt-2 flex justify-between text-sm font-medium">
+                                    <span>Shipping cost</span>
+                                    <span>
                                         {calculating
                                             ? 'Calculating shipping...'
-                                            : 'Enter your country, postal code, and address to calculate shipping.'}
-                                    </div>
+                                            : 'Enter shipping address'}
+                                    </span>
+                                </div>
                                 )}
 
                                 <div className="mt-4 flex justify-between border-t border-border pt-2 text-sm font-semibold">
@@ -472,8 +477,8 @@ export default function Checkout({ countries }: { countries: Option[] }) {
                         </div>
 
                         <div className="w-full">
-                            <Button type="submit" disabled={processing}>
-                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                            <Button type="submit" disabled={processing || calculating}>
+                                {(processing || calculating) && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                 PAY NOW
                             </Button>
                         </div>

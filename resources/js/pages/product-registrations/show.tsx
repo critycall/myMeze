@@ -134,6 +134,12 @@ export default function Show({ productRegistration, accessories }: { productRegi
                                                 <p>Days remaining</p>
                                                 <span> {productRegistration.remaining_warranty_days} days</span>
                                             </div>
+                                            { productRegistration.product_service && (
+                                                <div className="mt-1 flex justify-between py-1">
+                                                    <p>Purchased services</p>
+                                                    <span> {productRegistration.product_service.name}</span>
+                                                </div>
+                                            ) }
                                         </div>
                                     </div>
                                 )}
@@ -196,7 +202,7 @@ export default function Show({ productRegistration, accessories }: { productRegi
                             <div className="grid gap-2 md:grid-cols-3">
                                 {productRegistration.product.services.length > 0 &&
                                     productRegistration.product.services.map((service: ProductService) => (
-                                        <ServiceCard key={productRegistration.id+service.id} productRegistration={productRegistration.id} service={service} />
+                                        <ServiceCard key={productRegistration.id+service.id} productRegistration={productRegistration} service={service} />
                                     ))}
                             </div>
                         </div>

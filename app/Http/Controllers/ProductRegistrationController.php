@@ -56,7 +56,7 @@ class ProductRegistrationController extends Controller
 
     public function show(ProductRegistration $productRegistration): Response
     {
-        $productRegistration->load('product.services', 'product.latestRecipe.items.product');
+        $productRegistration->load('product.services', 'product.latestRecipe.items.product', 'productService');
 
         $tags = $productRegistration->product->tags->pluck('name')->toArray();
 

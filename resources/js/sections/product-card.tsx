@@ -53,33 +53,34 @@ export default function ProductCard({ product }: { product: Product }) {
             onSuccess: () => {
                 setOpen(false);
                 toast(
-                    <div className="flex items-center gap-2 text-green-600">
+                    <div className="flex items-center gap-2 text-green-900">
                         <CheckCircle className="h-5 w-5" />
-                        <span className="font-medium text-green-600">Added to your cart!</span>
+                        <span className="font-medium text-green-900">Added to your cart!</span>
                     </div>,
                     {
                         duration: 4000,
                         className: 'border border-emerald-200 shadow-md rounded-xl p-3 dark:bg-neutral-900 dark:border-emerald-700',
                         description: (
                             <div>
-                                <div className="mt-2 flex items-center gap-3">
-                                    <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-lg border border-muted dark:bg-neutral-800">
+                                <div className="mt-2 flex items-center gap-3 mb-6">
+                                    <div className="flex h-18 w-18 items-center justify-center overflow-hidden rounded-lg border border-muted dark:bg-neutral-800">
                                         <ResponsiveImage className="object-contain" media={product.thumbnail} />
                                     </div>
-                                    <div className="flex flex-col text-sm">
+                                    <div className="flex flex-col">
                                         <span className="leading-tight font-semibold text-foreground">{product.name}</span>
-                                        {selectedVariant && <span className="text-xs text-muted-foreground">{selectedVariant.name}</span>}
-                                        <span className="mt-1 text-xs font-medium text-primary">
+                                        {selectedVariant && <span className="text-sm text-muted-foreground">{selectedVariant.name}</span>}
+                                        <span className="mt-1 text-sm font-medium text-primary">
                                         {auth.user.currency.symbol}
                                             {Math.round(selectedVariant?.price ?? product.msrp)}
                                     </span>
                                     </div>
                                 </div>
-                                <Link href={'/cart'}>
-                                    <Button size="sm" className="font-normal text-xs "> Checkout</Button>
-                                </Link>
+                              <div className="absolute right-2 bottom-2 text-right">
+                                  <Link href={'/cart'} >
+                                      <Button size="sm" className="mt-3 uppercase text-xs"> Checkout</Button>
+                                  </Link>
+                              </div>
                             </div>
-
                         ),
                     },
                 );

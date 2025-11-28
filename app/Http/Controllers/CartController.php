@@ -132,8 +132,12 @@ class CartController extends Controller
         ];
     }
 
-    public function index(): Response
+    public function index(): Response|RedirectResponse
     {
+        if ($this->getUserCart()->items->count() === 0) {
+            return redirect()->route('dashboard');
+        }
+
         $countries = Country::all(['id', 'name'])->map(function ($item) {
             return [
                 'value' => $item->id,
@@ -142,7 +146,7 @@ class CartController extends Controller
         });
 
         return Inertia::render('cart/index', [
-            'cart' => $this->formatCart($this->getUserCart()),
+            'cart_id' => $this->getUserCart()->id,
             'countries' => $countries,
         ]);
     }

@@ -81,7 +81,7 @@ export default function Dashboard({
                                     </div>
                                     <div>
                                         <Link href={route('product-registrations.show', registration.id)}>
-                                            <Button variant="secondary" className="uppercase ">
+                                            <Button variant="secondary" className="uppercase">
                                                 {' '}
                                                 More info
                                             </Button>
@@ -103,22 +103,25 @@ export default function Dashboard({
                 </div>
 
                 <div className="grid gap-6 overflow-hidden md:grid-cols-2 dark:border-sidebar-border">
-                    <div className="flex aspect-auto items-center justify-between space-x-6 overflow-hidden rounded border border-sidebar-border/70 bg-card p-2 dark:border-sidebar-border">
-                        <Icon iconNode={Wrench} className="h-32 w-32" />
-                        <div className="w-full">
-                            <h2 className="scroll-m-20 font-semibold text-balance uppercase md:text-xl">Spare parts</h2>
-                            <p className="font-normal text-muted-foreground">Order genuine replacement parts for your headphone</p>
+                    <Link href={'collections/spare-parts'}>
+                        <div className="flex aspect-auto items-center justify-between space-x-6 overflow-hidden rounded border border-sidebar-border/70 bg-card p-2 dark:border-sidebar-border">
+                            <Icon iconNode={Wrench} className="h-32 w-32" />
+                            <div className="w-full">
+                                <h2 className="scroll-m-20 font-semibold text-balance uppercase md:text-xl">Spare parts</h2>
+                                <p className="font-normal text-muted-foreground">Order genuine replacement parts for your headphone</p>
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="flex aspect-auto items-center justify-between space-x-6 overflow-hidden rounded border border-sidebar-border/70 bg-card p-2 dark:border-sidebar-border">
-                        <Icon iconNode={Headset} className="h-32 w-32" />
-                        <div className="w-full">
-                            <h2 className="scroll-m-20 font-semibold text-balance uppercase md:text-xl">Accessories</h2>
-                            <p className="font-normal text-muted-foreground">Find compatible add-ons to elevate your setup</p>
+                    </Link>
+                    <Link href={'collections/accessories'}>
+                        <div className="flex aspect-auto items-center justify-between space-x-6 overflow-hidden rounded border border-sidebar-border/70 bg-card p-2 dark:border-sidebar-border">
+                            <Icon iconNode={Headset} className="h-32 w-32" />
+                            <div className="w-full">
+                                <h2 className="scroll-m-20 font-semibold text-balance uppercase md:text-xl">Accessories</h2>
+                                <p className="font-normal text-muted-foreground">Find compatible add-ons to elevate your setup</p>
+                            </div>
                         </div>
-                    </div>
-
+                    </Link>
+                    <Link href={'/warranty'}>
                     <div className="flex aspect-auto items-center justify-between space-x-6 overflow-hidden rounded border border-sidebar-border/70 bg-card p-2 dark:border-sidebar-border">
                         <Icon iconNode={Award} className="h-32 w-32" />
                         <div className="w-full">
@@ -126,7 +129,9 @@ export default function Dashboard({
                             <p className="font-normal text-muted-foreground">Warranty terms, registration and claims process</p>
                         </div>
                     </div>
+                    </Link>
 
+                    <Link href={'/support'}>
                     <div className="flex aspect-auto items-center justify-between space-x-6 overflow-hidden rounded border border-sidebar-border/70 bg-card p-2 dark:border-sidebar-border">
                         <Icon iconNode={CircleUser} className="h-32 w-32" />
                         <div className="w-full">
@@ -134,6 +139,7 @@ export default function Dashboard({
                             <p className="font-normal text-muted-foreground">Product guides, FAQs, and contact information</p>
                         </div>
                     </div>
+                    </Link>
                 </div>
             </div>
         </AppLayout>

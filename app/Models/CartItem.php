@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,5 +52,24 @@ class CartItem extends Model
     public function getWeightAttribute(): float
     {
         return $this->item::class == Product::class ? $this->quantity * $this->item->weight /1000 : 0;
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::get(
+            fn () => $this->item?->name
+        );
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::get(function () {
+            if ($this->item instanceof ProductService) {
+                return $this->productRegistration?->product?->name . ' ' .
+                    $this->productRegistration?->serial_number;
+            }
+
+            return $this?->variant?->name  ?? null;
+        });
     }
 }

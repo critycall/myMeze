@@ -40,4 +40,9 @@ return [
         'secret'  => env('NOCAPTCHA_SECRET'),
     ],
 
+    'stripe' => [
+        'secret' => env('STRIPE_SECRET'),
+        'key'    => env('STRIPE_PUBLIC_KEY'),
+    ],
+
 ];
